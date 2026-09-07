@@ -14,6 +14,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
 
   <style>
+    /* =========================================================
+       テーマ変数 ＆ 共通サイズ変数
+       ========================================================= */
     :root {
       --accent: #E85D75;
       --accent-hover: #D94A63;
@@ -26,6 +29,10 @@
       --slot-bg: #eaeaea;
       --slot-border: #cccccc;
       --canvas-bg: #ffffff;
+
+      /* 統一された高さと角丸 */
+      --element-height: 44px;
+      --element-radius: 8px;
     }
 
     body.dark-mode {
@@ -54,7 +61,9 @@
       transition: background-color 0.3s, color 0.3s;
     }
 
-    /* --- 左サイドバー --- */
+    /* =========================================================
+       左サイドバー
+       ========================================================= */
     .sidebar {
       width: 320px;
       background-color: var(--sidebar-bg);
@@ -92,14 +101,16 @@
       letter-spacing: 0.5px;
     }
 
+    /* 入力欄、セレクトボックスの高さ・角丸を統一 */
     .sidebar input[type="text"],
     .sidebar select {
       width: 100%;
-      padding: 10px;
+      height: var(--element-height);
+      padding: 0 14px;
       background: transparent;
       border: 1px solid var(--border-color);
       color: var(--text-color);
-      border-radius: 8px;
+      border-radius: var(--element-radius);
       outline: none;
       transition: 0.2s;
       font-size: 14px;
@@ -112,13 +123,16 @@
       box-shadow: 0 0 0 2px rgba(232, 93, 117, 0.2);
     }
 
+    /* すべてのボタンの高さ・角丸を統一 */
     .btn {
-      padding: 12px 15px;
+      width: 100%;
+      height: var(--element-height);
+      padding: 0 15px;
       font-family: inherit;
       background-color: transparent;
       color: var(--text-color);
       border: 1px solid var(--border-color);
-      border-radius: 4px;
+      border-radius: var(--element-radius);
       cursor: pointer;
       font-weight: 700;
       transition: 0.2s;
@@ -145,6 +159,7 @@
       box-shadow: 0 4px 12px rgba(232, 93, 117, 0.3);
     }
 
+    /* 切り替え行のトグルボタンも高さを統一 */
     .toggle-row {
       display: flex;
       gap: 10px;
@@ -152,14 +167,15 @@
 
     .toggle-btn {
       flex: 1;
-      padding: 10px;
+      height: var(--element-height);
+      padding: 0 10px;
       font-size: 12px;
       font-weight: 700;
       font-family: inherit;
       border: 1px solid var(--border-color);
       background: transparent;
       color: var(--text-color);
-      border-radius: 4px;
+      border-radius: var(--element-radius);
       cursor: pointer;
       transition: 0.2s;
       text-align: center;
@@ -174,7 +190,23 @@
       color: var(--accent);
     }
 
-    /* --- 右メイン --- */
+    /* クリアボタン等も高さを合わせる */
+    .btn-subtle {
+      height: var(--element-height);
+      color: #999;
+      font-size: 13px;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      border-radius: var(--element-radius);
+    }
+    .btn-subtle:hover {
+      color: var(--text-color);
+      border-color: var(--text-color);
+    }
+
+    /* =========================================================
+       右メイン
+       ========================================================= */
     .main-content {
       flex: 1;
       padding: 30px;
@@ -237,7 +269,9 @@
       grid-template-columns: repeat(10, 1fr);
     }
 
-    /* --- セル --- */
+    /* =========================================================
+       セル
+       ========================================================= */
     .slot {
       aspect-ratio: 1 / 1;
       background-color: var(--slot-bg);
@@ -251,7 +285,10 @@
       background-position: center;
       background-repeat: no-repeat;
 
-      transition: transform 0.15s, border-color 0.2s, border-style 0.2s;
+      transition:
+        transform 0.15s,
+        border-color 0.2s,
+        border-style 0.2s;
     }
 
     .slot:hover {
@@ -263,15 +300,20 @@
       content: '+';
       position: absolute;
       inset: 0;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       padding-bottom: 3px;
+
       font-size: 48px;
       line-height: 1;
       font-weight: 700;
+
       color: rgba(150, 150, 150, 0.4);
       opacity: 0;
+
       transition: opacity 0.2s;
       pointer-events: none;
     }
@@ -306,17 +348,22 @@
       position: absolute;
       top: 4px;
       right: 4px;
+
       background: rgba(0, 0, 0, 0.6);
       color: #fff;
       border: none;
       border-radius: 50%;
+
       width: 24px;
       height: 24px;
+
       font-size: 14px;
       font-weight: bold;
+
       display: none;
       align-items: center;
       justify-content: center;
+
       cursor: pointer;
       transition: 0.2s;
     }
@@ -329,17 +376,22 @@
       display: flex;
     }
 
-    /* --- モーダル --- */
+    /* =========================================================
+       モーダル
+       ========================================================= */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
+
       background: rgba(0, 0, 0, 0.85);
+
       display: none;
       align-items: center;
       justify-content: center;
+
       z-index: 1000;
       backdrop-filter: blur(4px);
     }
@@ -347,24 +399,34 @@
     .modal-content {
       background: var(--sidebar-bg);
       color: var(--text-color);
+
       padding: 25px;
       border-radius: 12px;
+
       max-width: 500px;
       width: 90%;
+
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     }
 
+    /* モーダル内のURL入力欄も高さを統一 */
     #urlInput {
       display: block;
       width: 100%;
-      padding: 12px 14px;
+      height: var(--element-height);
+      padding: 0 14px;
+
       background: transparent;
       color: var(--text-color);
+
       border: 1px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: var(--element-radius);
+
       outline: none;
+
       font-family: inherit;
       font-size: 14px;
+
       transition: 0.2s;
     }
 
@@ -390,17 +452,21 @@
     }
 
     .file-select-btn {
-      padding: 8px 12px;
+      height: var(--element-height);
+      padding: 0 12px;
       font-family: inherit;
       font-weight: 700;
       font-size: 13px;
       color: var(--text-color);
       background: transparent;
       border: 1px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: var(--element-radius);
       cursor: pointer;
       white-space: nowrap;
       transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .file-select-btn:hover {
@@ -428,7 +494,9 @@
     .crop-container {
       width: 100%;
       height: 350px;
+
       margin: 20px 0;
+
       background: #000;
       border-radius: 4px;
       overflow: hidden;
@@ -443,521 +511,1621 @@
 
 <body class="light-mode">
 
+  <!-- =======================================================
+       サイドバー
+       ======================================================= -->
   <div class="sidebar">
+
     <h1>42 Illustrations</h1>
 
     <div class="toggle-row">
-      <button class="toggle-btn" onclick="toggleTheme()" id="themeToggleBtn">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+
+      <button class="toggle-btn"
+              onclick="toggleTheme()"
+              id="themeToggleBtn">
+
+        <svg width="14"
+             height="14"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             viewBox="0 0 24 24">
+          <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+
         <span data-i18n="themeLight">Light</span>
+
       </button>
 
-      <button class="toggle-btn" onclick="toggleLanguage()" id="langToggleBtn">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+      <button class="toggle-btn"
+              onclick="toggleLanguage()"
+              id="langToggleBtn">
+
+        <svg width="14"
+             height="14"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             viewBox="0 0 24 24">
+          <path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+        </svg>
+
         <span id="langLabel">EN</span>
+
       </button>
+
     </div>
 
     <div class="form-group">
-      <label data-i18n="layoutLabel">Layout</label>
-      <select id="layoutSelect" onchange="changeLayout()">
-        <option value="42" data-i18n="layout42">Topsters 42 (10+12+20)</option>
-        <option value="9" data-i18n="layout9">3×3 (9 slots)</option>
-        <option value="25" data-i18n="layout25">5×5 (25 slots)</option>
+
+      <label data-i18n="layoutLabel">
+        Layout
+      </label>
+
+      <select id="layoutSelect"
+              onchange="changeLayout()">
+
+        <option value="42"
+                data-i18n="layout42">
+          Topsters 42 (10+12+20)
+        </option>
+
+        <option value="9"
+                data-i18n="layout9">
+          3×3 (9 slots)
+        </option>
+
+        <option value="25"
+                data-i18n="layout25">
+          5×5 (25 slots)
+        </option>
+
       </select>
+
     </div>
 
     <div class="form-group">
-      <label data-i18n="titleLabel">Title</label>
-      <input type="text" id="titleInput" data-i18n-placeholder="titlePlaceholder" oninput="updateTitle()">
+
+      <label data-i18n="titleLabel">
+        Title
+      </label>
+
+      <input type="text"
+             id="titleInput"
+             data-i18n-placeholder="titlePlaceholder"
+             oninput="updateTitle()">
+
     </div>
 
-    <button class="btn btn-primary" onclick="openAddModal()" style="margin-top: 10px;">
-      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
-      <span data-i18n="addBtn">Add Image</span>
+    <button class="btn btn-primary"
+            onclick="openAddModal()">
+
+      <svg width="18"
+           height="18"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14"></path>
+      </svg>
+
+      <span data-i18n="addBtn">
+        Add Image
+      </span>
+
     </button>
 
     <hr style="border-color: var(--border-color); margin: 5px 0;">
 
-    <button class="btn" onclick="exportCanvas()" style="border-color: var(--accent); color: var(--accent);">
-      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-      <span data-i18n="exportBtn">Export as PNG</span>
+    <button class="btn"
+            onclick="exportCanvas()"
+            style="border-color: var(--accent); color: var(--accent);">
+
+      <svg width="18"
+           height="18"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           viewBox="0 0 24 24">
+        <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+      </svg>
+
+      <span data-i18n="exportBtn">
+        Export as PNG
+      </span>
+
     </button>
 
-    <button class="btn" onclick="clearAll()" style="color: #999; font-size: 12px; padding: 8px;" data-i18n="clearBtn">Clear All</button>
+    <button class="btn btn-subtle"
+            onclick="clearAll()"
+            data-i18n="clearBtn">
+      Clear All
+    </button>
+
   </div>
 
+
+  <!-- =======================================================
+       メインコンテンツ
+       ======================================================= -->
   <div class="main-content">
-    <div class="chart-container" id="chartContainer">
-      <div class="chart-title" id="chartTitle"></div>
+
+    <div class="chart-container"
+         id="chartContainer">
+
+      <div class="chart-title"
+           id="chartTitle">
+      </div>
+
       <div id="gridArea"></div>
+
     </div>
+
   </div>
 
-  <div id="modal" class="modal-overlay">
+
+  <!-- =======================================================
+       画像追加モーダル
+       ======================================================= -->
+  <div id="modal"
+       class="modal-overlay">
+
     <div class="modal-content">
-      <h3 id="modalTitle" style="border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-bottom: 15px; font-weight: 700;"></h3>
 
-      <input type="text" id="urlInput" data-i18n-placeholder="urlPlaceholder">
-      <button class="btn btn-primary" onclick="fetchAndCrop()" style="margin-top: 10px; width: 100%;" data-i18n="loadBtn">Load</button>
+      <h3 id="modalTitle"
+          style="
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 700;
+          ">
+      </h3>
 
-      <div class="upload-separator" data-i18n="orLabel">OR</div>
 
+      <!-- URL -->
+      <input type="text"
+             id="urlInput"
+             data-i18n-placeholder="urlPlaceholder">
+
+      <button class="btn btn-primary"
+              onclick="fetchAndCrop()"
+              style="margin-top: 10px;"
+              data-i18n="loadBtn">
+        Load
+      </button>
+
+
+      <!-- URL / Upload separator -->
+      <div class="upload-separator"
+           data-i18n="orLabel">
+        OR
+      </div>
+
+
+      <!-- ローカル画像 -->
       <div class="file-select-row">
-        <input type="file" id="fileInput" accept="image/*" onchange="loadUploadedImage(event)">
-        <button type="button" class="file-select-btn" onclick="document.getElementById('fileInput').click()" data-i18n="fileChooseBtn">ファイルを選択</button>
-        <span id="fileName" class="file-name" data-i18n="fileNoSelected">ファイルが選択されていません</span>
+        <input type="file"
+               id="fileInput"
+               accept="image/*"
+               onchange="loadUploadedImage(event)">
+
+        <button type="button"
+                class="file-select-btn"
+                onclick="document.getElementById('fileInput').click()"
+                data-i18n="fileChooseBtn">
+          ファイルを選択
+        </button>
+
+        <span id="fileName"
+              class="file-name"
+              data-i18n="fileNoSelected">
+          ファイルが選択されていません
+        </span>
       </div>
 
-      <div class="crop-container" id="cropBox" style="display:none;">
-        <img id="cropImage" src="" alt="">
+
+      <!-- Cropper -->
+      <div class="crop-container"
+           id="cropBox"
+           style="display:none;">
+
+        <img id="cropImage"
+             src=""
+             alt="">
+
       </div>
 
-      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
-        <button class="btn" onclick="closeModal()" data-i18n="cancelBtn">Cancel</button>
-        <button class="btn btn-primary" id="confirmBtn" style="display:none;" onclick="applyCrop()" data-i18n="cropBtn">Confirm Crop</button>
+
+      <!-- Buttons -->
+      <div style="
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 15px;
+      ">
+
+        <button class="btn btn-subtle"
+                style="width: 120px;"
+                onclick="closeModal()"
+                data-i18n="cancelBtn">
+          Cancel
+        </button>
+
+        <button class="btn btn-primary"
+                id="confirmBtn"
+                style="width: 140px; display:none;"
+                onclick="applyCrop()"
+                data-i18n="cropBtn">
+          Confirm Crop
+        </button>
+
       </div>
+
     </div>
+
   </div>
 
+
+  <!-- Cropper.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
+
   <script>
-    const WORKER_URL = 'https://42illustrations.enden-kpc.workers.dev';
+
+    /* =========================================================
+       設定
+       ========================================================= */
+
+    const WORKER_URL =
+      'https://42illustrations.enden-kpc.workers.dev';
+
+
+    /* =========================================================
+       多言語辞書
+       ========================================================= */
 
     const dict = {
+
       ja: {
+
         themeLight: "ライト",
         themeDark: "ダーク",
+
         layoutLabel: "レイアウト",
         layout42: "Topsters 42枚 (10 + 12 + 20)",
         layout9: "3×3 (9枚)",
         layout25: "5×5 (25枚)",
+
         titleLabel: "タイトル",
         titlePlaceholder: "私を構成するイラスト",
+
         addBtn: "画像を追加",
         exportBtn: "画像として保存 (PNG)",
         clearBtn: "すべてクリア",
+
         modalTitle: "画像を追加",
+
         urlPlaceholder: "X(Twitter) または PixivのURL",
+
         orLabel: "または",
+
         loadBtn: "読み込む",
         cancelBtn: "キャンセル",
         cropBtn: "切り抜き確定",
+
         alertUrl: "URLを入力してください",
         alertFile: "画像ファイルを選択してください",
         fileChooseBtn: "ファイルを選択",
         fileNoSelected: "ファイルが選択されていません",
-        alertClear: "現在のレイアウト内の画像をクリアしますか？"
+
+        alertClear:
+          "現在のレイアウト内の画像をクリアしますか？"
+
       },
+
       en: {
+
         themeLight: "Light",
         themeDark: "Dark",
+
         layoutLabel: "Layout",
         layout42: "Topsters 42 (10 + 12 + 20)",
         layout9: "3×3 (9 slots)",
         layout25: "5×5 (25 slots)",
+
         titleLabel: "Title",
         titlePlaceholder: "Illustrations That Shape Me",
+
         addBtn: "Add Image",
         exportBtn: "Export as PNG",
         clearBtn: "Clear All",
+
         modalTitle: "Add Image",
-        urlPlaceholder: "Paste X(Twitter) or Pixiv URL",
+
+        urlPlaceholder:
+          "Paste X(Twitter) or Pixiv URL",
+
         orLabel: "OR",
+
         loadBtn: "Load",
         cancelBtn: "Cancel",
         cropBtn: "Confirm Crop",
-        alertUrl: "Please enter a valid URL.",
-        alertFile: "Please select an image file.",
+
+        alertUrl:
+          "Please enter a valid URL.",
+
+        alertFile:
+          "Please select an image file.",
+
         fileChooseBtn: "Choose file",
         fileNoSelected: "No file selected",
-        alertClear: "Are you sure you want to clear all images?"
+
+        alertClear:
+          "Are you sure you want to clear all images?"
+
       }
+
     };
+
 
     let currentLang = 'ja';
 
+
+    /* =========================================================
+       レイアウト
+       ========================================================= */
+
     const LAYOUTS = {
-      '9': { total: 9, sections: [{ count: 9, cols: 3, className: 'grid-3x3' }] },
-      '25': { total: 25, sections: [{ count: 25, cols: 5, className: 'grid-5x5' }] },
-      '42': { total: 42, sections: [
-        { count: 10, cols: 5, className: 'grid-top' },
-        { count: 12, cols: 6, className: 'grid-mid' },
-        { count: 20, cols: 10, className: 'grid-bot' }
-      ]}
+
+      '9': {
+        total: 9,
+        sections: [
+          {
+            count: 9,
+            cols: 3,
+            className: 'grid-3x3'
+          }
+        ]
+      },
+
+      '25': {
+        total: 25,
+        sections: [
+          {
+            count: 25,
+            cols: 5,
+            className: 'grid-5x5'
+          }
+        ]
+      },
+
+      '42': {
+        total: 42,
+        sections: [
+          {
+            count: 10,
+            cols: 5,
+            className: 'grid-top'
+          },
+          {
+            count: 12,
+            cols: 6,
+            className: 'grid-mid'
+          },
+          {
+            count: 20,
+            cols: 10,
+            className: 'grid-bot'
+          }
+        ]
+      }
+
     };
 
+
     const MAX_SLOTS = 42;
-    let slotsData = new Array(MAX_SLOTS).fill(null);
+
+    let slotsData =
+      new Array(MAX_SLOTS).fill(null);
+
     let currentLayoutId = '42';
+
     let selectedSlotIndex = null;
+
     let cropper = null;
+
     let draggedSlotIndex = null;
 
-    function applyLanguage() {
-      const texts = dict[currentLang];
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (texts[key]) el.textContent = texts[key];
-      });
-      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (texts[key]) el.placeholder = texts[key];
-      });
-      document.querySelector('option[value="42"]').textContent = texts.layout42;
-      document.querySelector('option[value="9"]').textContent = texts.layout9;
-      document.querySelector('option[value="25"]').textContent = texts.layout25;
 
-      const titleInput = document.getElementById('titleInput');
-      if (titleInput.value === dict.ja.titlePlaceholder || titleInput.value === dict.en.titlePlaceholder || titleInput.value === '') {
-        titleInput.value = texts.titlePlaceholder;
+    /* =========================================================
+       言語
+       ========================================================= */
+
+    function applyLanguage() {
+
+      const texts = dict[currentLang];
+
+
+      document
+        .querySelectorAll('[data-i18n]')
+        .forEach(el => {
+
+          const key =
+            el.getAttribute('data-i18n');
+
+          if (texts[key]) {
+            el.textContent = texts[key];
+          }
+
+        });
+
+
+      document
+        .querySelectorAll('[data-i18n-placeholder]')
+        .forEach(el => {
+
+          const key =
+            el.getAttribute('data-i18n-placeholder');
+
+          if (texts[key]) {
+            el.placeholder = texts[key];
+          }
+
+        });
+
+
+      document.querySelector(
+        'option[value="42"]'
+      ).textContent = texts.layout42;
+
+      document.querySelector(
+        'option[value="9"]'
+      ).textContent = texts.layout9;
+
+      document.querySelector(
+        'option[value="25"]'
+      ).textContent = texts.layout25;
+
+
+      const titleInput =
+        document.getElementById('titleInput');
+
+
+      if (
+        titleInput.value === dict.ja.titlePlaceholder ||
+        titleInput.value === dict.en.titlePlaceholder ||
+        titleInput.value === ''
+      ) {
+
+        titleInput.value =
+          texts.titlePlaceholder;
+
         updateTitle();
+
       }
+
+
       updateThemeBtnText();
 
-      const fileInput = document.getElementById('fileInput');
-      const fileName = document.getElementById('fileName');
+      const fileInput =
+        document.getElementById('fileInput');
+      const fileName =
+        document.getElementById('fileName');
+
       if (fileInput && fileName && !fileInput.files.length) {
-        fileName.textContent = texts.fileNoSelected;
+        fileName.textContent =
+          texts.fileNoSelected;
       }
+
     }
+
 
     function toggleLanguage() {
-      currentLang = currentLang === 'ja' ? 'en' : 'ja';
-      document.getElementById('langLabel').textContent = currentLang === 'ja' ? 'EN' : 'JA';
+
+      currentLang =
+        currentLang === 'ja'
+          ? 'en'
+          : 'ja';
+
+      document.getElementById(
+        'langLabel'
+      ).textContent =
+        currentLang === 'ja'
+          ? 'EN'
+          : 'JA';
+
       applyLanguage();
+
     }
+
+
+    /* =========================================================
+       テーマ
+       ========================================================= */
 
     function toggleTheme() {
-      const body = document.body;
-      if (body.classList.contains('light-mode')) {
-        body.classList.remove('light-mode');
-        body.classList.add('dark-mode');
+
+      const body =
+        document.body;
+
+
+      if (
+        body.classList.contains('light-mode')
+      ) {
+
+        body.classList.remove(
+          'light-mode'
+        );
+
+        body.classList.add(
+          'dark-mode'
+        );
+
       } else {
-        body.classList.remove('dark-mode');
-        body.classList.add('light-mode');
+
+        body.classList.remove(
+          'dark-mode'
+        );
+
+        body.classList.add(
+          'light-mode'
+        );
+
       }
+
+
       updateThemeBtnText();
+
     }
+
 
     function updateThemeBtnText() {
-      const isDark = document.body.classList.contains('dark-mode');
-      const textSpan = document.querySelector('#themeToggleBtn span');
-      textSpan.textContent = isDark ? dict[currentLang].themeDark : dict[currentLang].themeLight;
+
+      const isDark =
+        document.body.classList.contains(
+          'dark-mode'
+        );
+
+      const textSpan =
+        document.querySelector(
+          '#themeToggleBtn span'
+        );
+
+      textSpan.textContent =
+        isDark
+          ? dict[currentLang].themeDark
+          : dict[currentLang].themeLight;
+
     }
+
+
+    /* =========================================================
+       初期化
+       ========================================================= */
 
     function init() {
+
       applyLanguage();
+
       buildGrid();
+
       updateTitle();
+
     }
+
+
+    /* =========================================================
+       レイアウト変更
+       ========================================================= */
 
     function changeLayout() {
-      currentLayoutId = document.getElementById('layoutSelect').value;
+
+      currentLayoutId =
+        document.getElementById(
+          'layoutSelect'
+        ).value;
+
       buildGrid();
+
     }
+
 
     function buildGrid() {
-      const gridArea = document.getElementById('gridArea');
+
+      const gridArea =
+        document.getElementById(
+          'gridArea'
+        );
+
       gridArea.innerHTML = '';
-      const config = LAYOUTS[currentLayoutId];
+
+
+      const config =
+        LAYOUTS[currentLayoutId];
+
       let slotCounter = 0;
 
-      config.sections.forEach(sec => {
-        const sectionDiv = document.createElement('div');
-        sectionDiv.className = `grid-section ${sec.className}`;
 
-        for (let i = 0; i < sec.count; i++) {
-          const globalIndex = slotCounter;
-          const slot = document.createElement('div');
+      config.sections.forEach(sec => {
+
+        const sectionDiv =
+          document.createElement('div');
+
+        sectionDiv.className =
+          `grid-section ${sec.className}`;
+
+
+        for (
+          let i = 0;
+          i < sec.count;
+          i++
+        ) {
+
+          const globalIndex =
+            slotCounter;
+
+
+          const slot =
+            document.createElement('div');
+
           slot.className = 'slot';
-          slot.dataset.index = globalIndex;
-          slot.id = `slot-${globalIndex}`;
+
+          slot.dataset.index =
+            globalIndex;
+
+          slot.id =
+            `slot-${globalIndex}`;
+
           slot.draggable = true;
 
-          slot.addEventListener('dragstart', handleDragStart);
-          slot.addEventListener('dragover', handleDragOver);
-          slot.addEventListener('dragleave', handleDragLeave);
-          slot.addEventListener('drop', handleDrop);
-          slot.addEventListener('click', e => {
-            if (e.target.classList.contains('delete-btn')) return;
-            openAddModal(globalIndex);
-          });
 
-          const delBtn = document.createElement('button');
-          delBtn.className = 'delete-btn';
+          slot.addEventListener(
+            'dragstart',
+            handleDragStart
+          );
+
+          slot.addEventListener(
+            'dragover',
+            handleDragOver
+          );
+
+          slot.addEventListener(
+            'dragleave',
+            handleDragLeave
+          );
+
+          slot.addEventListener(
+            'drop',
+            handleDrop
+          );
+
+
+          slot.addEventListener(
+            'click',
+            e => {
+
+              if (
+                e.target.classList.contains(
+                  'delete-btn'
+                )
+              ) {
+                return;
+              }
+
+              openAddModal(
+                globalIndex
+              );
+
+            }
+          );
+
+
+          const delBtn =
+            document.createElement(
+              'button'
+            );
+
+          delBtn.className =
+            'delete-btn';
+
           delBtn.innerHTML = '×';
-          delBtn.onclick = e => {
-            e.stopPropagation();
-            removeImage(globalIndex);
-          };
 
-          slot.appendChild(delBtn);
-          sectionDiv.appendChild(slot);
+
+          delBtn.onclick =
+            e => {
+
+              e.stopPropagation();
+
+              removeImage(
+                globalIndex
+              );
+
+            };
+
+
+          slot.appendChild(
+            delBtn
+          );
+
+          sectionDiv.appendChild(
+            slot
+          );
+
           slotCounter++;
+
         }
-        gridArea.appendChild(sectionDiv);
+
+
+        gridArea.appendChild(
+          sectionDiv
+        );
+
       });
+
+
       renderSlots();
+
     }
+
+
+    /* =========================================================
+       ドラッグ＆ドロップ
+       ========================================================= */
 
     function handleDragStart(e) {
-      draggedSlotIndex = parseInt(this.dataset.index);
-      e.dataTransfer.effectAllowed = 'move';
+
+      draggedSlotIndex =
+        parseInt(
+          this.dataset.index
+        );
+
+      e.dataTransfer.effectAllowed =
+        'move';
+
     }
+
 
     function handleDragOver(e) {
+
       e.preventDefault();
-      this.classList.add('drag-over');
+
+      this.classList.add(
+        'drag-over'
+      );
+
     }
+
 
     function handleDragLeave() {
-      this.classList.remove('drag-over');
+
+      this.classList.remove(
+        'drag-over'
+      );
+
     }
+
 
     function handleDrop(e) {
-      e.preventDefault();
-      this.classList.remove('drag-over');
-      const targetIndex = parseInt(this.dataset.index);
 
-      if (draggedSlotIndex !== null && draggedSlotIndex !== targetIndex) {
-        const temp = slotsData[draggedSlotIndex];
-        slotsData[draggedSlotIndex] = slotsData[targetIndex];
-        slotsData[targetIndex] = temp;
+      e.preventDefault();
+
+      this.classList.remove(
+        'drag-over'
+      );
+
+
+      const targetIndex =
+        parseInt(
+          this.dataset.index
+        );
+
+
+      if (
+        draggedSlotIndex !== null &&
+        draggedSlotIndex !== targetIndex
+      ) {
+
+        const temp =
+          slotsData[
+            draggedSlotIndex
+          ];
+
+        slotsData[
+          draggedSlotIndex
+        ] =
+          slotsData[
+            targetIndex
+          ];
+
+        slotsData[
+          targetIndex
+        ] =
+          temp;
+
+
         renderSlots();
+
       }
+
     }
+
+
+    /* =========================================================
+       画像追加モーダル
+       ========================================================= */
 
     function openAddModal(index = null) {
-      const config = LAYOUTS[currentLayoutId];
+
+      const config =
+        LAYOUTS[currentLayoutId];
+
+
       if (index === null) {
-        for (let i = 0; i < config.total; i++) {
-          if (!slotsData[i]) { index = i; break; }
+
+        for (
+          let i = 0;
+          i < config.total;
+          i++
+        ) {
+
+          if (!slotsData[i]) {
+
+            index = i;
+
+            break;
+
+          }
+
         }
-        if (index === null) index = 0;
+
+
+        if (index === null) {
+          index = 0;
+        }
+
       }
-      selectedSlotIndex = index;
-      document.getElementById('modalTitle').textContent = dict[currentLang].modalTitle;
-      document.getElementById('urlInput').value = '';
-      document.getElementById('fileInput').value = '';
-      document.getElementById('fileName').textContent = dict[currentLang].fileNoSelected;
-      document.getElementById('cropBox').style.display = 'none';
-      document.getElementById('confirmBtn').style.display = 'none';
+
+
+      selectedSlotIndex =
+        index;
+
+
+      document.getElementById(
+        'modalTitle'
+      ).textContent =
+        dict[currentLang].modalTitle;
+
+
+      document.getElementById(
+        'urlInput'
+      ).value = '';
+
+
+      document.getElementById(
+        'fileInput'
+      ).value = '';
+
+      document.getElementById(
+        'fileName'
+      ).textContent =
+        dict[currentLang].fileNoSelected;
+
+
+      document.getElementById(
+        'cropBox'
+      ).style.display =
+        'none';
+
+
+      document.getElementById(
+        'confirmBtn'
+      ).style.display =
+        'none';
+
 
       if (cropper) {
+
         cropper.destroy();
+
         cropper = null;
+
       }
-      document.getElementById('modal').style.display = 'flex';
+
+
+      document.getElementById(
+        'modal'
+      ).style.display =
+        'flex';
+
     }
+
 
     function closeModal() {
-      document.getElementById('modal').style.display = 'none';
+
+      document.getElementById(
+        'modal'
+      ).style.display =
+        'none';
+
+
       if (cropper) {
+
         cropper.destroy();
+
         cropper = null;
+
       }
+
     }
+
+
+    /* =========================================================
+       Cropper共通処理
+       ========================================================= */
 
     function loadImageIntoCropper(src) {
-      const cropImg = document.getElementById('cropImage');
+
+      const cropImg =
+        document.getElementById(
+          'cropImage'
+        );
+
+
       if (cropper) {
+
         cropper.destroy();
+
         cropper = null;
+
       }
+
 
       cropImg.onload = () => {
-        document.getElementById('cropBox').style.display = 'block';
-        document.getElementById('confirmBtn').style.display = 'inline-block';
-        cropper = new Cropper(cropImg, {
-          aspectRatio: 1,
-          viewMode: 1,
-          autoCropArea: 1
-        });
+
+        document.getElementById(
+          'cropBox'
+        ).style.display =
+          'block';
+
+
+        document.getElementById(
+          'confirmBtn'
+        ).style.display =
+          'inline-block';
+
+
+        cropper =
+          new Cropper(
+            cropImg,
+            {
+              aspectRatio: 1,
+              viewMode: 1,
+              autoCropArea: 1
+            }
+          );
+
       };
+
 
       cropImg.onerror = () => {
-        alert('Error: Could not load image.');
+
+        alert(
+          'Error: Could not load image.'
+        );
+
       };
+
 
       cropImg.src = src;
+
     }
 
-    // --- 【ここがポイント】過去に成功した確実なプロキシ経由の取得ロジック ---
+
+    /* =========================================================
+       URLから画像を取得（プロキシ経由）
+       ========================================================= */
+
     async function fetchAndCrop() {
-      const url = document.getElementById('urlInput').value.trim();
+
+      const url =
+        document.getElementById(
+          'urlInput'
+        ).value.trim();
+
+
       if (!url) {
-        return alert(dict[currentLang].alertUrl);
+
+        return alert(
+          dict[currentLang].alertUrl
+        );
+
       }
+
 
       try {
-        const proxyUrl = `${WORKER_URL}/?url=${encodeURIComponent(url)}`;
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.src = proxyUrl;
 
-        await new Promise((resolve, reject) => {
-          img.onload = resolve;
-          img.onerror = () => reject(new Error('Fetch Error'));
-        });
+        const proxyUrl =
+          `${WORKER_URL}/?url=${encodeURIComponent(url)}`;
 
-        loadImageIntoCropper(proxyUrl);
+
+        const img =
+          new Image();
+
+        img.crossOrigin =
+          'anonymous';
+
+        img.src =
+          proxyUrl;
+
+
+        await new Promise(
+          (resolve, reject) => {
+
+            img.onload =
+              resolve;
+
+            img.onerror =
+              () =>
+                reject(
+                  new Error(
+                    'Fetch Error'
+                  )
+                );
+
+          }
+        );
+
+
+        loadImageIntoCropper(
+          proxyUrl
+        );
+
+
       } catch (e) {
-        alert('Error: ' + e.message);
+
+        alert(
+          'Error: ' + e.message
+        );
+
       }
+
     }
+
+
+    /* =========================================================
+       ローカル画像アップロード
+       ========================================================= */
 
     function loadUploadedImage(event) {
-      const file = event.target.files[0];
+
+      const file =
+        event.target.files[0];
+
       if (!file) {
-        document.getElementById('fileName').textContent = dict[currentLang].fileNoSelected;
+        document.getElementById(
+          'fileName'
+        ).textContent =
+          dict[currentLang].fileNoSelected;
         return;
       }
-      document.getElementById('fileName').textContent = file.name;
 
-      if (!file.type.startsWith('image/')) {
-        alert(dict[currentLang].alertFile);
+      document.getElementById(
+        'fileName'
+      ).textContent = file.name;
+
+
+      if (
+        !file.type.startsWith(
+          'image/'
+        )
+      ) {
+
+        alert(
+          dict[currentLang].alertFile
+        );
+
         event.target.value = '';
-        document.getElementById('fileName').textContent = dict[currentLang].fileNoSelected;
+        document.getElementById(
+          'fileName'
+        ).textContent =
+          dict[currentLang].fileNoSelected;
+
         return;
+
       }
 
-      const reader = new FileReader();
-      reader.onload = e => {
-        loadImageIntoCropper(e.target.result);
-      };
-      reader.onerror = () => {
-        alert('Error: Could not read image file.');
-      };
-      reader.readAsDataURL(file);
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        e => {
+
+          loadImageIntoCropper(
+            e.target.result
+          );
+
+        };
+
+
+      reader.onerror =
+        () => {
+
+          alert(
+            'Error: Could not read image file.'
+          );
+
+        };
+
+
+      reader.readAsDataURL(
+        file
+      );
+
     }
+
+
+    /* =========================================================
+       Crop確定
+       ========================================================= */
 
     function applyCrop() {
-      if (!cropper) return;
-      const croppedCanvas = cropper.getCroppedCanvas({
-        width: 400,
-        height: 400,
-        imageSmoothingEnabled: true,
-        imageSmoothingQuality: 'high'
-      });
 
-      slotsData[selectedSlotIndex] = croppedCanvas;
+      if (!cropper) {
+        return;
+      }
+
+
+      const croppedCanvas =
+        cropper.getCroppedCanvas(
+          {
+            width: 400,
+            height: 400,
+            imageSmoothingEnabled: true,
+            imageSmoothingQuality: 'high'
+          }
+        );
+
+
+      slotsData[
+        selectedSlotIndex
+      ] =
+        croppedCanvas;
+
+
       renderSlots();
+
       closeModal();
+
     }
+
+
+    /* =========================================================
+       画像削除
+       ========================================================= */
 
     function removeImage(index) {
-      slotsData[index] = null;
+
+      slotsData[index] =
+        null;
+
       renderSlots();
+
     }
+
+
+    /* =========================================================
+       グリッド描画
+       ========================================================= */
 
     function renderSlots() {
-      const config = LAYOUTS[currentLayoutId];
-      for (let i = 0; i < config.total; i++) {
-        const slot = document.getElementById(`slot-${i}`);
-        if (!slot) continue;
-        const data = slotsData[i];
+
+      const config =
+        LAYOUTS[currentLayoutId];
+
+
+      for (
+        let i = 0;
+        i < config.total;
+        i++
+      ) {
+
+        const slot =
+          document.getElementById(
+            `slot-${i}`
+          );
+
+
+        if (!slot) {
+          continue;
+        }
+
+
+        const data =
+          slotsData[i];
+
 
         if (data) {
-          slot.style.backgroundImage = `url(${data.toDataURL('image/png')})`;
-          slot.classList.add('has-image');
+
+          slot.style.backgroundImage =
+            `url(${data.toDataURL('image/png')})`;
+
+          slot.classList.add(
+            'has-image'
+          );
+
         } else {
-          slot.style.backgroundImage = 'none';
-          slot.classList.remove('has-image');
+
+          slot.style.backgroundImage =
+            'none';
+
+          slot.classList.remove(
+            'has-image'
+          );
+
         }
+
       }
+
     }
+
+
+    /* =========================================================
+       タイトル
+       ========================================================= */
 
     function updateTitle() {
-      document.getElementById('chartTitle').textContent = document.getElementById('titleInput').value || ' ';
+
+      document.getElementById(
+        'chartTitle'
+      ).textContent =
+        document.getElementById(
+          'titleInput'
+        ).value || ' ';
+
     }
+
+
+    /* =========================================================
+       全削除
+       ========================================================= */
 
     function clearAll() {
-      if (confirm(dict[currentLang].alertClear)) {
-        const total = LAYOUTS[currentLayoutId].total;
-        for (let i = 0; i < total; i++) slotsData[i] = null;
+
+      if (
+        confirm(
+          dict[currentLang].alertClear
+        )
+      ) {
+
+        const total =
+          LAYOUTS[
+            currentLayoutId
+          ].total;
+
+
+        for (
+          let i = 0;
+          i < total;
+          i++
+        ) {
+
+          slotsData[i] =
+            null;
+
+        }
+
+
         renderSlots();
+
       }
+
     }
+
+
+    /* =========================================================
+       PNG出力
+       ========================================================= */
 
     function exportCanvas() {
-      const config = LAYOUTS[currentLayoutId];
-      const exportCanvas = document.createElement('canvas');
-      const ctx = exportCanvas.getContext('2d');
+
+      const config =
+        LAYOUTS[currentLayoutId];
+
+
+      const exportCanvas =
+        document.createElement(
+          'canvas'
+        );
+
+
+      const ctx =
+        exportCanvas.getContext(
+          '2d'
+        );
+
 
       const width = 1200;
+
       const padding = 40;
+
       const titleHeight = 90;
+
       const gap = 12;
 
-      const isDark = document.body.classList.contains('dark-mode');
-      const bgColor = isDark ? '#000000' : '#ffffff';
-      const textColor = isDark ? '#ffffff' : '#333333';
-      const emptyBorder = isDark ? '#222222' : '#cccccc';
 
-      let totalHeight = padding + titleHeight;
+      const isDark =
+        document.body.classList.contains(
+          'dark-mode'
+        );
+
+
+      const bgColor =
+        isDark
+          ? '#000000'
+          : '#ffffff';
+
+
+      const textColor =
+        isDark
+          ? '#ffffff'
+          : '#333333';
+
+
+      const emptyBorder =
+        isDark
+          ? '#222222'
+          : '#cccccc';
+
+
+      let totalHeight =
+        padding + titleHeight;
+
+
       const sectionHeights = [];
 
+
       config.sections.forEach(sec => {
-        const rows = Math.ceil(sec.count / sec.cols);
-        const rawItemW = (width - padding * 2 - gap * (sec.cols - 1)) / sec.cols;
-        const itemW = Math.floor(rawItemW);
-        const secH = rows * itemW + (rows - 1) * gap;
-        sectionHeights.push({ itemW, secH, rows, cols: sec.cols, count: sec.count });
-        totalHeight += secH + gap * 2;
+
+        const rows =
+          Math.ceil(
+            sec.count / sec.cols
+          );
+
+
+        const rawItemW =
+          (
+            width -
+            padding * 2 -
+            gap * (sec.cols - 1)
+          ) / sec.cols;
+
+
+        const itemW =
+          Math.floor(rawItemW);
+
+
+        const secH =
+          rows * itemW +
+          (rows - 1) * gap;
+
+
+        sectionHeights.push(
+          {
+            itemW,
+            secH,
+            rows,
+            cols: sec.cols,
+            count: sec.count
+          }
+        );
+
+
+        totalHeight +=
+          secH + gap * 2;
+
       });
 
-      totalHeight += padding - gap * 2;
-      exportCanvas.width = width;
-      exportCanvas.height = Math.ceil(totalHeight);
 
-      ctx.fillStyle = bgColor;
-      ctx.fillRect(0, 0, width, exportCanvas.height);
+      totalHeight +=
+        padding - gap * 2;
 
-      ctx.fillStyle = textColor;
-      ctx.font = '700 42px "Zen Maru Gothic", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'alphabetic';
-      ctx.fillText(document.getElementById('titleInput').value, width / 2, padding + 50);
 
-      let currentY = padding + titleHeight;
+      exportCanvas.width =
+        width;
+
+      exportCanvas.height =
+        Math.ceil(totalHeight);
+
+
+      /* 背景 */
+      ctx.fillStyle =
+        bgColor;
+
+      ctx.fillRect(
+        0,
+        0,
+        width,
+        exportCanvas.height
+      );
+
+
+      /* タイトル */
+      ctx.fillStyle =
+        textColor;
+
+      ctx.font =
+        '700 42px "Zen Maru Gothic", sans-serif';
+
+      ctx.textAlign =
+        'center';
+
+      ctx.textBaseline =
+        'alphabetic';
+
+
+      ctx.fillText(
+        document.getElementById(
+          'titleInput'
+        ).value,
+        width / 2,
+        padding + 50
+      );
+
+
+      let currentY =
+        padding + titleHeight;
+
+
       let slotIndex = 0;
 
-      sectionHeights.forEach(secConfig => {
-        for (let i = 0; i < secConfig.count; i++) {
-          const col = i % secConfig.cols;
-          const row = Math.floor(i / secConfig.cols);
-          const x = Math.round(padding + col * (secConfig.itemW + gap));
-          const y = Math.round(currentY + row * (secConfig.itemW + gap));
-          const drawW = secConfig.itemW;
-          const drawH = secConfig.itemW;
 
-          if (slotsData[slotIndex]) {
-            ctx.save();
-            ctx.beginPath();
-            ctx.rect(x, y, drawW, drawH);
-            ctx.clip();
-            ctx.drawImage(slotsData[slotIndex], x, y, drawW, drawH);
-            ctx.restore();
-          } else {
-            ctx.strokeStyle = emptyBorder;
-            ctx.lineWidth = 3;
-            ctx.strokeRect(x + 1.5, y + 1.5, drawW - 3, drawH - 3);
+      sectionHeights.forEach(
+        secConfig => {
+
+          for (
+            let i = 0;
+            i < secConfig.count;
+            i++
+          ) {
+
+            const col =
+              i % secConfig.cols;
+
+
+            const row =
+              Math.floor(
+                i / secConfig.cols
+              );
+
+
+            const x =
+              Math.round(
+                padding +
+                col *
+                (
+                  secConfig.itemW +
+                  gap
+                )
+              );
+
+
+            const y =
+              Math.round(
+                currentY +
+                row *
+                (
+                  secConfig.itemW +
+                  gap
+                )
+              );
+
+
+            const drawW =
+              secConfig.itemW;
+
+            const drawH =
+              secConfig.itemW;
+
+
+            if (
+              slotsData[slotIndex]
+            ) {
+
+              ctx.save();
+
+
+              ctx.beginPath();
+
+              ctx.rect(
+                x,
+                y,
+                drawW,
+                drawH
+              );
+
+              ctx.clip();
+
+
+              ctx.drawImage(
+                slotsData[slotIndex],
+                x,
+                y,
+                drawW,
+                drawH
+              );
+
+
+              ctx.restore();
+
+
+            } else {
+
+              ctx.strokeStyle =
+                emptyBorder;
+
+              ctx.lineWidth = 3;
+
+
+              ctx.strokeRect(
+                x + 1.5,
+                y + 1.5,
+                drawW - 3,
+                drawH - 3
+              );
+
+            }
+
+
+            slotIndex++;
+
           }
-          slotIndex++;
-        }
-        currentY += secConfig.secH + gap * 2;
-      });
 
-      const a = document.createElement('a');
-      a.href = exportCanvas.toDataURL('image/png');
-      const dlName = document.getElementById('titleInput').value.trim() || 'IllustrationChart';
-      a.download = `${dlName}.png`;
+
+          currentY +=
+            secConfig.secH +
+            gap * 2;
+
+        }
+      );
+
+
+      const a =
+        document.createElement(
+          'a'
+        );
+
+
+      a.href =
+        exportCanvas.toDataURL(
+          'image/png'
+        );
+
+
+      const dlName =
+        document.getElementById(
+          'titleInput'
+        ).value.trim() ||
+        'IllustrationChart';
+
+
+      a.download =
+        `${dlName}.png`;
+
+
       a.click();
+
     }
 
+
+    /* =========================================================
+       起動
+       ========================================================= */
+
     init();
+
   </script>
+
 </body>
 </html>
