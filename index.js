@@ -45,53 +45,30 @@ export default {
           return new Response(`[エラー2] 画像が見つかりません。`, { status: 404, headers: corsHeaders });
         }
       } 
-      // ======== 2. Bluesky (bsky.app) の場合 ========
+      // ======== 2. Bluesky (bsky.app) の場合 (FxBluesky活用) ========
       else if (parsedTarget.hostname.includes('bsky.app')) {
-        // bsky.app のURLを fxbsky.app (または api.fxbsky.app) の構造に合わせて変換、あるいは oEmbed / Phixiv などの仕組みを活用
-        // FxBlueskyのAPI形式に準拠してAPIを叩く
-        const apiDomain = 'api.fxbsky.app';
-        // bsky.app/profile/{handle}/post/{rkey} のパスをそのまま保持してAPIに投げる
-        const apiUrl = `https://${apiDomain}${parsedTarget.pathname}`;
+        // bsky.app を fxbsky.app に書き換えてFxBlueskyのAPI/メタデータ構造を利用
+        parsedTarget.hostname = 'fxbsky.app';
+        const fxBskyUrl = parsedTarget.href;
 
-        const apiRes = await fetch(apiUrl, {
-          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Discordbot/2.0' }
+        const res = await fetch(fxBskyUrl, {
+          headers: { 
+            // DiscordBot等のプレビュー用エージェントになりすましてog:imageを取得
+            'User-Agent': 'Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)' 
+          }
         });
 
-        if (!apiRes.ok) {
-          return new Response(`[エラー3] FxBluesky APIが拒否: ${apiRes.status}`, { status: apiRes.status, headers: corsHeaders });
+        if (!res.ok) {
+          return new Response(`[エラー3] FxBlueskyへのアクセス失敗: ${res.status}`, { status: res.status, headers: corsHeaders });
         }
 
-        const apiJson = await apiRes.json();
-        // レスポンスから画像メディアのURLを抽出 (Fxtwitter互換スキーマまたはBlueskyのembed構造に対応)
-        if (apiJson.code === 200 && apiJson.status?.media?.photos) {
-          imageUrl = apiJson.status.media.photos[0].url;
-        } else if (apiJson.post?.embed?.images) {
-          imageUrl = apiJson.post.embed.images[0].fullsize || apiJson.post.embed.images[0].thumb;
-        } else if (apiJson.embed?.images) {
-          imageUrl = apiJson.embed.images[0].fullsize || apiJson.embed.images[0].thumb;
+        const html = await res.text();
+        const ogImageMatch = html.match(/<meta\s+property="og:image"\s+content="([^"]+)"/i);
+
+        if (ogImageMatch && ogImageMatch[1]) {
+          imageUrl = ogImageMatch[1].replace(/&amp;/g, '&');
         } else {
-          // フォールバックとして、oEmbed経由やHTMLメタタグ解析を試みる
-          const oembedUrl = `https://embed.bsky.app/oembed?url=${encodeURIComponent(targetUrl)}`;
-          const oRes = await fetch(oembedUrl);
-          if (oRes.ok) {
-            const oJson = await oRes.json();
-            // 必要に応じてHTMLパース等にフォールバック
-          }
-        }
-
-        if (!imageUrl) {
-          // 万が一JSONから直接取れない場合、fxbskyのHTMLプレビューメタタグをスクレイピング
-          parsedTarget.hostname = 'fxbsky.app';
-          const htmlRes = await fetch(parsedTarget.href, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)' }
-          });
-          if (htmlRes.ok) {
-            const html = await htmlRes.text();
-            const ogImageMatch = html.match(/<meta\s+property="og:image"\s+content="([^"]+)"/i);
-            if (ogImageMatch && ogImageMatch[1]) {
-              imageUrl = ogImageMatch[1].replace(/&amp;/g, '&');
-            }
-          }
+          return new Response(`[エラー4] Blueskyの投稿から画像が見つかりませんでした。`, { status: 404, headers: corsHeaders });
         }
       }
       // ======== 3. Pixiv の場合 ========
@@ -108,7 +85,7 @@ export default {
            });
            
            if (!phRes.ok) {
-             return new Response(`[エラー4] Phixivへのアクセス失敗: ${phRes.status}`, { status: phRes.status, headers: corsHeaders });
+             return new Response(`[エラー5] Phixivへのアクセス失敗: ${phRes.status}`, { status: phRes.status, headers: corsHeaders });
            }
            
            const html = await phRes.text();
@@ -118,13 +95,13 @@ export default {
              imageUrl = ogImageMatch[1];
              imageUrl = imageUrl.replace(/&amp;/g, '&');
            } else {
-             return new Response(`[エラー5] Phixivのページからog:imageが見つかりませんでした。`, { status: 404, headers: corsHeaders });
+             return new Response(`[エラー6] Phixivのページからog:imageが見つかりませんでした。`, { status: 404, headers: corsHeaders });
            }
          }
       }
 
       if (!imageUrl) {
-        return new Response(`[エラー6] 対象のURLから画像を抽出できませんでした。`, { status: 404, headers: corsHeaders });
+        return new Response(`[エラー7] 対象のURLから画像を抽出できませんでした。`, { status: 404, headers: corsHeaders });
       }
 
       // ======== 4. 抽出した画像URLをダウンロード ========
@@ -136,7 +113,7 @@ export default {
       });
 
       if (!imageRes.ok) {
-         return new Response(`[エラー7] 画像本体のダウンロードに失敗: ${imageRes.status}\n対象URL: ${imageUrl}`, { status: imageRes.status, headers: corsHeaders });
+         return new Response(`[エラー8] 画像本体のダウンロードに失敗: ${imageRes.status}\n対象URL: ${imageUrl}`, { status: imageRes.status, headers: corsHeaders });
       }
 
       const response = new Response(imageRes.body, imageRes);
