@@ -1,1737 +1,2148 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>42 Illustrations</title>
+  <meta charset="UTF-8">
+  <title>42 Illustrations</title>
 
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+  <!-- Cropper.js CSS -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
-      rel="stylesheet">
+  <!-- Google Fonts: Zen Maru Gothic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
 
-<style>
-:root {
-  --accent: #E85D75;
-  --accent-hover: #D94A63;
-  --bg-color: #f4f4f4;
-  --sidebar-bg: #ffffff;
-  --text-color: #333333;
-  --border-color: #dddddd;
-  --slot-bg: #eaeaea;
-  --slot-border: #cccccc;
-  --canvas-bg: #ffffff;
-}
+  <style>
+    /* =========================================================
+       テーマ変数
+       ========================================================= */
+    :root {
+      --accent: #E85D75;
+      --accent-hover: #D94A63;
 
-body.dark-mode {
-  --bg-color: #121212;
-  --sidebar-bg: #1e1e1e;
-  --text-color: #ffffff;
-  --border-color: #333333;
-  --slot-bg: #262626;
-  --slot-border: #444444;
-  --canvas-bg: #000000;
-}
+      /* ライトモード */
+      --bg-color: #f4f4f4;
+      --sidebar-bg: #ffffff;
+      --text-color: #333333;
+      --border-color: #dddddd;
+      --slot-bg: #eaeaea;
+      --slot-border: #cccccc;
+      --canvas-bg: #ffffff;
+    }
 
-* {
-  box-sizing: border-box;
-}
+    body.dark-mode {
+      --bg-color: #121212;
+      --sidebar-bg: #1e1e1e;
+      --text-color: #ffffff;
+      --border-color: #333333;
+      --slot-bg: #262626;
+      --slot-border: #444444;
+      --canvas-bg: #000000;
+    }
 
-body {
-  margin: 0;
-  font-family: "Zen Maru Gothic", sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: background-color 0.2s, color 0.2s;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.container {
-  display: flex;
-  min-height: 100vh;
-}
+    body {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-.sidebar {
-  width: 280px;
-  padding: 20px;
-  background-color: var(--sidebar-bg);
-  border-right: 1px solid var(--border-color);
-  flex-shrink: 0;
-}
+    /* =========================================================
+       左サイドバー
+       ========================================================= */
+    .sidebar {
+      width: 320px;
+      background-color: var(--sidebar-bg);
+      border-right: 1px solid var(--border-color);
+      padding: 25px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 10;
+      overflow-y: auto;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
 
-.sidebar h1 {
-  margin: 0 0 20px;
-  font-size: 24px;
-}
+    .sidebar h1 {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: var(--text-color);
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 10px;
+      margin-bottom: 5px;
+    }
 
-.sidebar-section {
-  margin-bottom: 20px;
-}
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
 
-.sidebar label {
-  display: block;
-  margin-bottom: 7px;
-  font-size: 14px;
-  font-weight: 700;
-}
+    .form-group label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-.sidebar input[type="text"],
-.sidebar select {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  background-color: var(--sidebar-bg);
-  color: var(--text-color);
-  font-family: inherit;
-  font-size: 14px;
-}
+    .sidebar input[type="text"],
+    .sidebar select {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      border-radius: 8px;
+      outline: none;
+      transition: 0.2s;
+      font-size: 14px;
+      font-family: inherit;
+    }
 
-.sidebar input[type="text"] {
-  border-radius: 8px;
-}
+    .sidebar input[type="text"]:focus,
+    .sidebar select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(232, 93, 117, 0.2);
+    }
 
-.sidebar input[type="text"]:focus,
-.sidebar select:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(232, 93, 117, 0.2);
-}
+    .btn {
+      padding: 12px 15px;
+      font-family: inherit;
+      background-color: transparent;
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: 0.2s;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
 
-.btn {
-  border: none;
-  border-radius: 6px;
-  padding: 10px 14px;
-  font-family: inherit;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
-}
+    .btn:hover {
+      background-color: rgba(136, 136, 136, 0.1);
+    }
 
-.btn:active {
-  transform: scale(0.98);
-}
+    .btn-primary {
+      background-color: var(--accent);
+      color: #fff;
+      border: none;
+    }
 
-.btn-primary {
-  background-color: var(--accent);
-  color: #ffffff;
-}
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(232, 93, 117, 0.3);
+    }
 
-.btn-primary:hover {
-  background-color: var(--accent-hover);
-}
+    .toggle-row {
+      display: flex;
+      gap: 10px;
+    }
 
-.btn-secondary {
-  background-color: transparent;
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-}
+    .toggle-btn {
+      flex: 1;
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      color: var(--text-color);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: 0.2s;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
 
-.btn-secondary:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
+    .toggle-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
 
-.btn-danger {
-  background-color: #d9534f;
-  color: #ffffff;
-}
+    /* =========================================================
+       右メイン
+       ========================================================= */
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-.btn-danger:hover {
-  background-color: #c9302c;
-}
+    .chart-container {
+      background-color: var(--canvas-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 950px;
+      transition: background-color 0.3s;
+    }
 
-.button-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+    body.dark-mode .chart-container {
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
 
-.toggle-group {
-  display: flex;
-  gap: 6px;
-}
+    .chart-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: var(--text-color);
+      letter-spacing: 2px;
+    }
 
-.toggle-group .btn {
-  flex: 1;
-}
+    .grid-section {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
 
-.main {
-  flex: 1;
-  padding: 30px;
-  overflow: auto;
-}
+    .grid-3x3 {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-.canvas-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-}
+    .grid-5x5 {
+      grid-template-columns: repeat(5, 1fr);
+      max-width: 750px;
+      margin: 0 auto;
+    }
 
-.title-display {
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 30px;
-  font-weight: 700;
-}
+    .grid-top {
+      grid-template-columns: repeat(5, 1fr);
+    }
 
-.sections {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+    .grid-mid {
+      grid-template-columns: repeat(6, 1fr);
+    }
 
-.slot-grid {
-  display: grid;
-  gap: 12px;
-}
+    .grid-bot {
+      grid-template-columns: repeat(10, 1fr);
+    }
 
-.grid-3x3 {
-  grid-template-columns: repeat(3, 1fr);
-}
+    /* =========================================================
+       セル
+       ========================================================= */
+    .slot {
+      aspect-ratio: 1 / 1;
+      background-color: var(--slot-bg);
+      border: 2px dashed var(--slot-border);
+      border-radius: 6px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
 
-.grid-5x5 {
-  grid-template-columns: repeat(5, 1fr);
-}
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
 
-.grid-top {
-  grid-template-columns: repeat(5, 1fr);
-}
+      transition:
+        transform 0.15s,
+        border-color 0.2s,
+        border-style 0.2s;
+    }
 
-.grid-mid {
-  grid-template-columns: repeat(6, 1fr);
-}
+    .slot:hover {
+      border-color: var(--accent);
+      border-style: solid;
+    }
 
-.grid-bot {
-  grid-template-columns: repeat(10, 1fr);
-}
+    /* =========================================================
+       空枠の +
+       Flexboxで正確に中央配置
+       ========================================================= */
+    .slot:not(.has-image)::after {
+      content: '+';
+      position: absolute;
+      inset: 0;
 
-.slot {
-  aspect-ratio: 1 / 1;
-  background-color: var(--slot-bg);
-  border: 2px dashed var(--slot-border);
-  border-radius: 6px;
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-  background-size: cover;
-  background-position: center;
-  transition:
-    transform 0.15s,
-    border-color 0.2s,
-    border-style 0.2s;
-}
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-.slot:hover {
-  border-color: var(--accent);
-  border-style: solid;
-}
+      /*
+       * フォントの字形によって+がわずかに下に見えるため
+       * 視覚的な中央になるよう3pxだけ上方向へ補正
+       */
+      padding-bottom: 3px;
 
-.slot:not(.has-image)::after {
-  content: '+';
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 3px;
-  font-size: 48px;
-  line-height: 1;
-  font-weight: 700;
-  color: rgba(150, 150, 150, 0.45);
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
-}
+      font-size: 48px;
+      line-height: 1;
+      font-weight: 700;
 
-.slot:not(.has-image):hover::after {
-  opacity: 1;
-}
+      color: rgba(150, 150, 150, 0.4);
+      opacity: 0;
 
-.slot.has-image {
-  border: 2px solid transparent;
-  cursor: grab;
-  background-origin: border-box;
-  background-clip: border-box;
-}
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
 
-.slot.has-image:hover {
-  border-color: var(--accent);
-}
+    .slot:not(.has-image):hover::after {
+      opacity: 1;
+    }
 
-.slot.dragging {
-  opacity: 0.5;
-}
+    /* =========================================================
+       画像あり枠
+       画像を枠の外周まで表示
+       ========================================================= */
+    .slot.has-image {
+      border: 2px solid transparent;
+      background-origin: border-box;
+      background-clip: border-box;
+      cursor: grab;
+    }
 
-.slot.drag-over {
-  border-color: var(--accent);
-  border-style: solid;
-}
+    .slot.has-image:active {
+      cursor: grabbing;
+      transform: scale(0.98);
+    }
 
-.modal {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.55);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
+    .slot.has-image:hover {
+      border-color: var(--accent);
+    }
 
-.modal.show {
-  display: flex;
-}
+    .slot.drag-over {
+      border: 3px solid var(--accent);
+      transform: scale(1.05);
+      z-index: 2;
+    }
 
-.modal-content {
-  background-color: var(--sidebar-bg);
-  color: var(--text-color);
-  border-radius: 10px;
-  padding: 24px;
-  max-width: 500px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-}
+    /* =========================================================
+       削除ボタン
+       ========================================================= */
+    .delete-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
 
-.modal-content h2 {
-  margin-top: 0;
-  margin-bottom: 18px;
-}
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
 
-#urlInput {
-  width: 100%;
-  padding: 12px 14px;
-  font-size: 14px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background-color: var(--sidebar-bg);
-  color: var(--text-color);
-  font-family: inherit;
-}
+      width: 24px;
+      height: 24px;
 
-#urlInput:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(232, 93, 117, 0.2);
-}
+      font-size: 14px;
+      font-weight: bold;
 
-.modal-url-group {
-  display: flex;
-  gap: 8px;
-  width: 100%;
-}
+      display: none;
+      align-items: center;
+      justify-content: center;
 
-.modal-url-group #urlInput {
-  flex: 1;
-  min-width: 0;
-}
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-.file-upload {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  margin-top: 12px;
-}
+    .delete-btn:hover {
+      background: var(--accent);
+    }
 
-.file-upload .btn {
-  flex-shrink: 0;
-}
+    .slot.has-image:hover .delete-btn {
+      display: flex;
+    }
 
-.file-upload span {
-  color: var(--text-color);
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+    /* =========================================================
+       モーダル
+       ========================================================= */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
 
-.upload-or {
-  margin: 12px 0;
-  text-align: center;
-  color: #888888;
-  font-size: 13px;
-}
+      background: rgba(0, 0, 0, 0.85);
 
-.crop-container {
-  width: 100%;
-  height: 350px;
-  margin: 20px 0;
-  background: #000000;
-  border-radius: 4px;
-  overflow: hidden;
-}
+      display: none;
+      align-items: center;
+      justify-content: center;
 
-.crop-container img {
-  display: block;
-  max-width: 100%;
-}
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
 
-.modal-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 16px;
-}
+    .modal-content {
+      background: var(--sidebar-bg);
+      color: var(--text-color);
 
-@media (max-width: 700px) {
-  .container {
-    flex-direction: column;
-  }
+      padding: 25px;
+      border-radius: 12px;
 
-  .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-  }
+      max-width: 500px;
+      width: 90%;
 
-  .main {
-    padding: 15px;
-  }
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
 
-  .grid-bot {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-</style>
+    /* =========================================================
+       URL入力欄
+       タイトル入力欄と同じような角丸デザイン
+       ========================================================= */
+    #urlInput {
+      display: block;
+      width: 100%;
+
+      padding: 12px 14px;
+
+      background: transparent;
+      color: var(--text-color);
+
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+
+      outline: none;
+
+      font-family: inherit;
+      font-size: 14px;
+
+      transition: 0.2s;
+    }
+
+    #urlInput:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(232, 93, 117, 0.2);
+    }
+
+    #urlInput::placeholder {
+      color: #999;
+    }
+
+    /* =========================================================
+       ファイル選択
+       ========================================================= */
+    #fileInput {
+      display: none;
+    }
+
+    .file-select-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .file-select-btn {
+      padding: 8px 12px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text-color);
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.2s;
+    }
+
+    .file-select-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .file-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 13px;
+      color: #888;
+    }
+
+    .upload-separator {
+      text-align: center;
+      margin: 12px 0;
+      color: #888;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .crop-container {
+      width: 100%;
+      height: 350px;
+
+      margin: 20px 0;
+
+      background: #000;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .crop-container img {
+      display: block;
+      max-width: 100%;
+    }
+  </style>
 </head>
 
-<body>
+<body class="light-mode">
 
-<div class="container">
-
-  <aside class="sidebar">
+  <!-- =======================================================
+       サイドバー
+       ======================================================= -->
+  <div class="sidebar">
 
     <h1>42 Illustrations</h1>
 
-    <div class="sidebar-section">
-      <label data-i18n="titleLabel">タイトル</label>
-      <input
-        type="text"
-        id="titleInput"
-        data-i18n-placeholder="titlePlaceholder"
-        placeholder="私を構成するイラスト"
-        oninput="updateTitle()"
-      >
+    <div class="toggle-row">
+
+      <button class="toggle-btn"
+              onclick="toggleTheme()"
+              id="themeToggleBtn">
+
+        <svg width="14"
+             height="14"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             viewBox="0 0 24 24">
+          <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+
+        <span data-i18n="themeLight">Light</span>
+
+      </button>
+
+      <button class="toggle-btn"
+              onclick="toggleLanguage()"
+              id="langToggleBtn">
+
+        <svg width="14"
+             height="14"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             viewBox="0 0 24 24">
+          <path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+        </svg>
+
+        <span id="langLabel">EN</span>
+
+      </button>
+
     </div>
 
-    <div class="sidebar-section">
-      <label data-i18n="layoutLabel">レイアウト</label>
-      <select id="layoutSelect" onchange="changeLayout()">
-        <option value="42" data-i18n="layout42">
-          Topsters 42枚 (10 + 12 + 20)
+    <div class="form-group">
+
+      <label data-i18n="layoutLabel">
+        Layout
+      </label>
+
+      <select id="layoutSelect"
+              onchange="changeLayout()">
+
+        <option value="42"
+                data-i18n="layout42">
+          Topsters 42 (10+12+20)
         </option>
-        <option value="9" data-i18n="layout9">
-          3×3 (9枚)
+
+        <option value="9"
+                data-i18n="layout9">
+          3×3 (9 slots)
         </option>
-        <option value="25" data-i18n="layout25">
-          5×5 (25枚)
+
+        <option value="25"
+                data-i18n="layout25">
+          5×5 (25 slots)
         </option>
+
       </select>
-    </div>
-
-    <div class="sidebar-section">
-      <label data-i18n="themeLabel">テーマ</label>
-
-      <div class="toggle-group">
-        <button
-          class="btn btn-secondary"
-          onclick="setTheme('light')"
-          data-i18n="themeLight"
-        >
-          ライト
-        </button>
-
-        <button
-          class="btn btn-secondary"
-          onclick="setTheme('dark')"
-          data-i18n="themeDark"
-        >
-          ダーク
-        </button>
-      </div>
-    </div>
-
-    <div class="sidebar-section">
-      <label data-i18n="languageLabel">言語</label>
-
-      <div class="toggle-group">
-        <button
-          class="btn btn-secondary"
-          onclick="setLanguage('ja')"
-        >
-          日本語
-        </button>
-
-        <button
-          class="btn btn-secondary"
-          onclick="setLanguage('en')"
-        >
-          English
-        </button>
-      </div>
-    </div>
-
-    <div class="sidebar-section button-group">
-      <button
-        class="btn btn-primary"
-        onclick="openAddModal()"
-        data-i18n="addBtn"
-      >
-        画像を追加
-      </button>
-
-      <button
-        class="btn btn-primary"
-        onclick="exportCanvas()"
-        data-i18n="exportBtn"
-      >
-        画像として保存 (PNG)
-      </button>
-
-      <button
-        class="btn btn-danger"
-        onclick="clearAll()"
-        data-i18n="clearBtn"
-      >
-        すべてクリア
-      </button>
-    </div>
-
-  </aside>
-
-  <main class="main">
-
-    <div class="canvas-wrapper">
-
-      <div
-        class="title-display"
-        id="titleDisplay"
-      >
-        私を構成するイラスト
-      </div>
-
-      <div
-        class="sections"
-        id="sections"
-      ></div>
 
     </div>
 
-  </main>
+    <div class="form-group">
 
-</div>
+      <label data-i18n="titleLabel">
+        Title
+      </label>
 
+      <input type="text"
+             id="titleInput"
+             data-i18n-placeholder="titlePlaceholder"
+             oninput="updateTitle()">
 
-<!-- 画像追加モーダル -->
-<div class="modal" id="addModal">
-
-  <div class="modal-content">
-
-    <h2 data-i18n="modalTitle">
-      画像を追加
-    </h2>
-
-    <!-- URL -->
-    <div class="modal-url-group">
-      <input
-        type="text"
-        id="urlInput"
-        data-i18n-placeholder="urlPlaceholder"
-        placeholder="X(Twitter) または PixivのURL"
-      >
-
-      <button
-        class="btn btn-primary"
-        onclick="fetchAndCrop()"
-        data-i18n="loadBtn"
-      >
-        読み込む
-      </button>
     </div>
 
-    <div class="upload-or" data-i18n="orLabel">
-      または
-    </div>
+    <button class="btn btn-primary"
+            onclick="openAddModal()"
+            style="margin-top: 10px;">
 
-    <!-- ローカルファイル -->
-    <div class="file-upload">
+      <svg width="18"
+           height="18"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14"></path>
+      </svg>
 
-      <input
-        type="file"
-        id="fileInput"
-        accept="image/*"
-        onchange="loadUploadedImage(event)"
-        hidden
-      >
-
-      <button
-        type="button"
-        class="btn btn-secondary"
-        onclick="document.getElementById('fileInput').click()"
-        data-i18n="fileChooseBtn"
-      >
-        ファイルを選択
-      </button>
-
-      <span
-        id="fileName"
-        data-i18n="fileNoSelected"
-      >
-        ファイルが選択されていません
+      <span data-i18n="addBtn">
+        Add Image
       </span>
 
-    </div>
+    </button>
 
-    <!-- Cropper -->
-    <div
-      class="crop-container"
-      id="cropBox"
-      style="display:none;"
-    >
-      <img
-        id="cropImage"
-        src=""
-        alt="Crop preview"
-      >
-    </div>
+    <hr style="border-color: var(--border-color); margin: 5px 0;">
 
-    <div class="modal-buttons">
+    <button class="btn"
+            onclick="exportCanvas()"
+            style="border-color: var(--accent); color: var(--accent);">
 
-      <button
-        class="btn btn-secondary"
-        onclick="closeModal()"
-        data-i18n="cancelBtn"
-      >
-        キャンセル
-      </button>
+      <svg width="18"
+           height="18"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           viewBox="0 0 24 24">
+        <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+      </svg>
 
-      <button
-        class="btn btn-primary"
-        id="confirmBtn"
-        style="display:none;"
-        onclick="applyCrop()"
-        data-i18n="cropBtn"
-      >
-        切り抜き確定
-      </button>
+      <span data-i18n="exportBtn">
+        Export as PNG
+      </span>
+
+    </button>
+
+    <button class="btn"
+            onclick="clearAll()"
+            style="color: #999; font-size: 12px; padding: 8px;"
+            data-i18n="clearBtn">
+      Clear All
+    </button>
+
+  </div>
+
+
+  <!-- =======================================================
+       メインコンテンツ
+       ======================================================= -->
+  <div class="main-content">
+
+    <div class="chart-container"
+         id="chartContainer">
+
+      <div class="chart-title"
+           id="chartTitle">
+      </div>
+
+      <div id="gridArea"></div>
 
     </div>
 
   </div>
 
-</div>
+
+  <!-- =======================================================
+       画像追加モーダル
+       ======================================================= -->
+  <div id="modal"
+       class="modal-overlay">
+
+    <div class="modal-content">
+
+      <h3 id="modalTitle"
+          style="
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 700;
+          ">
+      </h3>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+      <!-- URL -->
+      <input type="text"
+             id="urlInput"
+             data-i18n-placeholder="urlPlaceholder">
 
-<script>
-/* =========================================================
-   設定
-========================================================= */
-
-const WORKER_URL =
-  'https://42illustrations.enden-kpc.workers.dev';
-
-
-/* =========================================================
-   多言語
-========================================================= */
-
-const dict = {
-
-  ja: {
-    themeLabel: "テーマ",
-    themeLight: "ライト",
-    themeDark: "ダーク",
-
-    languageLabel: "言語",
-
-    layoutLabel: "レイアウト",
-    layout42: "Topsters 42枚 (10 + 12 + 20)",
-    layout9: "3×3 (9枚)",
-    layout25: "5×5 (25枚)",
-
-    titleLabel: "タイトル",
-    titlePlaceholder: "私を構成するイラスト",
-
-    addBtn: "画像を追加",
-    exportBtn: "画像として保存 (PNG)",
-    clearBtn: "すべてクリア",
-
-    modalTitle: "画像を追加",
-
-    urlPlaceholder:
-      "X(Twitter) または PixivのURL",
-
-    loadBtn: "読み込む",
-
-    orLabel: "または",
-
-    fileChooseBtn: "ファイルを選択",
-    fileNoSelected: "ファイルが選択されていません",
-
-    cancelBtn: "キャンセル",
-    cropBtn: "切り抜き確定",
-
-    alertUrl:
-      "URLを入力してください",
-
-    alertClear:
-      "現在のレイアウト内の画像をクリアしますか？",
-
-    alertFile:
-      "画像ファイルを選択してください"
-  },
-
-  en: {
-    themeLabel: "Theme",
-    themeLight: "Light",
-    themeDark: "Dark",
-
-    languageLabel: "Language",
-
-    layoutLabel: "Layout",
-    layout42: "Topsters 42 (10 + 12 + 20)",
-    layout9: "3×3 (9 images)",
-    layout25: "5×5 (25 images)",
-
-    titleLabel: "Title",
-    titlePlaceholder: "Illustrations that make me",
-
-    addBtn: "Add Image",
-    exportBtn: "Save as PNG",
-    clearBtn: "Clear All",
-
-    modalTitle: "Add Image",
-
-    urlPlaceholder:
-      "Paste X(Twitter) or Pixiv URL",
-
-    loadBtn: "Load",
-
-    orLabel: "OR",
-
-    fileChooseBtn: "Choose file",
-    fileNoSelected: "No file selected",
-
-    cancelBtn: "Cancel",
-    cropBtn: "Confirm Crop",
-
-    alertUrl:
-      "Please enter a valid URL.",
-
-    alertClear:
-      "Clear all images in the current layout?",
-
-    alertFile:
-      "Please select an image file."
-  }
-
-};
+      <button class="btn btn-primary"
+              onclick="fetchAndCrop()"
+              style="margin-top: 10px; width: 100%;"
+              data-i18n="loadBtn">
+        Load
+      </button>
 
 
-/* =========================================================
-   レイアウト
-========================================================= */
+      <!-- URL / Upload separator -->
+      <div class="upload-separator"
+           data-i18n="orLabel">
+        OR
+      </div>
 
-const LAYOUTS = {
 
-  '9': {
-    total: 9,
-    sections: [
-      {
-        count: 9,
-        cols: 3,
-        className: 'grid-3x3'
-      }
-    ]
-  },
+      <!-- ローカル画像 -->
+      <div class="file-select-row">
+        <input type="file"
+               id="fileInput"
+               accept="image/*"
+               onchange="loadUploadedImage(event)">
 
-  '25': {
-    total: 25,
-    sections: [
-      {
-        count: 25,
-        cols: 5,
-        className: 'grid-5x5'
-      }
-    ]
-  },
+        <button type="button"
+                class="file-select-btn"
+                onclick="document.getElementById('fileInput').click()"
+                data-i18n="fileChooseBtn">
+          ファイルを選択
+        </button>
 
-  '42': {
-    total: 42,
-    sections: [
-      {
-        count: 10,
-        cols: 5,
-        className: 'grid-top'
+        <span id="fileName"
+              class="file-name"
+              data-i18n="fileNoSelected">
+          ファイルが選択されていません
+        </span>
+      </div>
+
+
+      <!-- Cropper -->
+      <div class="crop-container"
+           id="cropBox"
+           style="display:none;">
+
+        <img id="cropImage"
+             src=""
+             alt="">
+
+      </div>
+
+
+      <!-- Buttons -->
+      <div style="
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 15px;
+      ">
+
+        <button class="btn"
+                onclick="closeModal()"
+                data-i18n="cancelBtn">
+          Cancel
+        </button>
+
+        <button class="btn btn-primary"
+                id="confirmBtn"
+                style="display:none;"
+                onclick="applyCrop()"
+                data-i18n="cropBtn">
+          Confirm Crop
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Cropper.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+
+  <script>
+
+    /* =========================================================
+       設定
+       ========================================================= */
+
+    const WORKER_URL =
+      'https://42illustrations.enden-kpc.workers.dev';
+
+
+    /* =========================================================
+       多言語辞書
+       ========================================================= */
+
+    const dict = {
+
+      ja: {
+
+        themeLight: "ライト",
+        themeDark: "ダーク",
+
+        layoutLabel: "レイアウト",
+        layout42: "Topsters 42枚 (10 + 12 + 20)",
+        layout9: "3×3 (9枚)",
+        layout25: "5×5 (25枚)",
+
+        titleLabel: "タイトル",
+        titlePlaceholder: "私を構成するイラスト",
+
+        addBtn: "画像を追加",
+        exportBtn: "画像として保存 (PNG)",
+        clearBtn: "すべてクリア",
+
+        modalTitle: "画像を追加",
+
+        urlPlaceholder: "X(Twitter) または PixivのURL",
+
+        orLabel: "または",
+
+        loadBtn: "読み込む",
+        cancelBtn: "キャンセル",
+        cropBtn: "切り抜き確定",
+
+        alertUrl: "URLを入力してください",
+        alertFile: "画像ファイルを選択してください",
+        fileChooseBtn: "ファイルを選択",
+        fileNoSelected: "ファイルが選択されていません",
+
+        alertClear:
+          "現在のレイアウト内の画像をクリアしますか？"
+
       },
-      {
-        count: 12,
-        cols: 6,
-        className: 'grid-mid'
-      },
-      {
-        count: 20,
-        cols: 10,
-        className: 'grid-bot'
-      }
-    ]
-  }
 
-};
+      en: {
 
+        themeLight: "Light",
+        themeDark: "Dark",
 
-/* =========================================================
-   状態
-========================================================= */
+        layoutLabel: "Layout",
+        layout42: "Topsters 42 (10 + 12 + 20)",
+        layout9: "3×3 (9 slots)",
+        layout25: "5×5 (25 slots)",
 
-const MAX_SLOTS = 42;
+        titleLabel: "Title",
+        titlePlaceholder: "Illustrations That Shape Me",
 
-let slotsData =
-  new Array(MAX_SLOTS).fill(null);
+        addBtn: "Add Image",
+        exportBtn: "Export as PNG",
+        clearBtn: "Clear All",
 
-let currentLayoutId = '42';
+        modalTitle: "Add Image",
 
-let selectedSlotIndex = null;
+        urlPlaceholder:
+          "Paste X(Twitter) or Pixiv URL",
 
-let cropper = null;
+        orLabel: "OR",
 
-let draggedSlotIndex = null;
+        loadBtn: "Load",
+        cancelBtn: "Cancel",
+        cropBtn: "Confirm Crop",
 
-let currentLang = 'ja';
+        alertUrl:
+          "Please enter a valid URL.",
 
+        alertFile:
+          "Please select an image file.",
 
-/* =========================================================
-   初期化
-========================================================= */
+        fileChooseBtn: "Choose file",
+        fileNoSelected: "No file selected",
 
-document.addEventListener(
-  'DOMContentLoaded',
-  () => {
-
-    renderSlots();
-
-    updateTitle();
-
-    applyLanguage();
-
-  }
-);
-
-
-/* =========================================================
-   タイトル
-========================================================= */
-
-function updateTitle() {
-
-  const input =
-    document.getElementById('titleInput');
-
-  const display =
-    document.getElementById('titleDisplay');
-
-  let title = input.value.trim();
-
-  if (!title) {
-    title =
-      dict[currentLang].titlePlaceholder;
-  }
-
-  display.textContent = title;
-}
-
-
-/* =========================================================
-   言語変更
-========================================================= */
-
-function setLanguage(lang) {
-
-  currentLang = lang;
-
-  applyLanguage();
-
-  updateTitle();
-
-  const fileInput =
-    document.getElementById('fileInput');
-
-  const fileName =
-    document.getElementById('fileName');
-
-  if (
-    fileInput &&
-    fileName &&
-    !fileInput.files.length
-  ) {
-    fileName.textContent =
-      dict[currentLang].fileNoSelected;
-  }
-}
-
-
-function applyLanguage() {
-
-  document
-    .querySelectorAll('[data-i18n]')
-    .forEach(element => {
-
-      const key =
-        element.getAttribute('data-i18n');
-
-      if (dict[currentLang][key]) {
-        element.textContent =
-          dict[currentLang][key];
-      }
-
-    });
-
-
-  document
-    .querySelectorAll('[data-i18n-placeholder]')
-    .forEach(element => {
-
-      const key =
-        element.getAttribute(
-          'data-i18n-placeholder'
-        );
-
-      if (dict[currentLang][key]) {
-        element.placeholder =
-          dict[currentLang][key];
-      }
-
-    });
-
-}
-
-
-/* =========================================================
-   テーマ
-========================================================= */
-
-function setTheme(theme) {
-
-  if (theme === 'dark') {
-    document.body.classList.add('dark-mode');
-  } else {
-    document.body.classList.remove('dark-mode');
-  }
-
-}
-
-
-/* =========================================================
-   レイアウト変更
-========================================================= */
-
-function changeLayout() {
-
-  currentLayoutId =
-    document.getElementById(
-      'layoutSelect'
-    ).value;
-
-  renderSlots();
-
-}
-
-
-/* =========================================================
-   スロット描画
-========================================================= */
-
-function renderSlots() {
-
-  const container =
-    document.getElementById('sections');
-
-  container.innerHTML = '';
-
-  const layout =
-    LAYOUTS[currentLayoutId];
-
-  let slotIndex = 0;
-
-  layout.sections.forEach(sectionConfig => {
-
-    const section =
-      document.createElement('div');
-
-    section.className =
-      'slot-grid ' +
-      sectionConfig.className;
-
-    for (
-      let i = 0;
-      i < sectionConfig.count;
-      i++
-    ) {
-
-      const index = slotIndex++;
-
-      const slot =
-        document.createElement('div');
-
-      slot.className = 'slot';
-
-      slot.dataset.index = index;
-
-      slot.addEventListener(
-        'click',
-        () => {
-
-          if (draggedSlotIndex !== null) {
-            return;
-          }
-
-          if (slotsData[index]) {
-            openAddModal(index);
-          } else {
-            openAddModal(index);
-          }
-
-        }
-      );
-
-
-      /* ドラッグ */
-      slot.draggable =
-        !!slotsData[index];
-
-      slot.addEventListener(
-        'dragstart',
-        event => {
-
-          draggedSlotIndex = index;
-
-          slot.classList.add(
-            'dragging'
-          );
-
-          event.dataTransfer.effectAllowed =
-            'move';
-
-        }
-      );
-
-
-      slot.addEventListener(
-        'dragend',
-        () => {
-
-          draggedSlotIndex = null;
-
-          slot.classList.remove(
-            'dragging'
-          );
-
-        }
-      );
-
-
-      slot.addEventListener(
-        'dragover',
-        event => {
-
-          event.preventDefault();
-
-          if (
-            draggedSlotIndex !== null &&
-            draggedSlotIndex !== index
-          ) {
-            slot.classList.add(
-              'drag-over'
-            );
-          }
-
-        }
-      );
-
-
-      slot.addEventListener(
-        'dragleave',
-        () => {
-
-          slot.classList.remove(
-            'drag-over'
-          );
-
-        }
-      );
-
-
-      slot.addEventListener(
-        'drop',
-        event => {
-
-          event.preventDefault();
-
-          slot.classList.remove(
-            'drag-over'
-          );
-
-          if (
-            draggedSlotIndex === null ||
-            draggedSlotIndex === index
-          ) {
-            return;
-          }
-
-          const temp =
-            slotsData[index];
-
-          slotsData[index] =
-            slotsData[draggedSlotIndex];
-
-          slotsData[draggedSlotIndex] =
-            temp;
-
-          renderSlots();
-
-        }
-      );
-
-
-      if (slotsData[index]) {
-
-        slot.style.backgroundImage =
-          `url(${slotsData[index].toDataURL()})`;
-
-        slot.classList.add(
-          'has-image'
-        );
+        alertClear:
+          "Are you sure you want to clear all images?"
 
       }
 
-
-      section.appendChild(slot);
-
-    }
-
-    container.appendChild(section);
-
-  });
-
-}
+    };
 
 
-/* =========================================================
-   モーダル
-========================================================= */
-
-function openAddModal(index = null) {
-
-  if (index === null) {
-
-    index =
-      slotsData
-        .slice(
-          0,
-          LAYOUTS[currentLayoutId].total
-        )
-        .findIndex(
-          item => item === null
-        );
-
-    if (index === -1) {
-      index = 0;
-    }
-
-  }
-
-  selectedSlotIndex = index;
-
-  document
-    .getElementById('urlInput')
-    .value = '';
-
-  document
-    .getElementById('fileInput')
-    .value = '';
-
-  document
-    .getElementById('fileName')
-    .textContent =
-      dict[currentLang].fileNoSelected;
-
-  document
-    .getElementById('cropBox')
-    .style.display = 'none';
-
-  document
-    .getElementById('confirmBtn')
-    .style.display = 'none';
-
-  if (cropper) {
-    cropper.destroy();
-    cropper = null;
-  }
-
-  document
-    .getElementById('addModal')
-    .classList.add('show');
-
-}
+    let currentLang = 'ja';
 
 
-function closeModal() {
+    /* =========================================================
+       レイアウト
+       ========================================================= */
 
-  document
-    .getElementById('addModal')
-    .classList.remove('show');
+    const LAYOUTS = {
 
-  if (cropper) {
-    cropper.destroy();
-    cropper = null;
-  }
-
-}
-
-
-/* =========================================================
-   URLから画像読み込み
-========================================================= */
-
-async function fetchAndCrop() {
-
-  const url =
-    document
-      .getElementById('urlInput')
-      .value
-      .trim();
-
-  if (!url) {
-    alert(dict[currentLang].alertUrl);
-    return;
-  }
-
-  try {
-
-    const proxyUrl =
-      `${WORKER_URL}/?url=${encodeURIComponent(url)}`;
-
-    const img =
-      new Image();
-
-    img.crossOrigin =
-      'anonymous';
-
-    img.src =
-      proxyUrl;
-
-    await new Promise(
-      (resolve, reject) => {
-
-        img.onload =
-          resolve;
-
-        img.onerror =
-          () => reject(
-            new Error('Fetch Error')
-          );
-
-      }
-    );
-
-    loadImageIntoCropper(
-      proxyUrl
-    );
-
-  } catch (e) {
-
-    alert(
-      'Error: ' + e.message
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   Cropper初期化
-========================================================= */
-
-function loadImageIntoCropper(src) {
-
-  const cropImg =
-    document.getElementById(
-      'cropImage'
-    );
-
-  if (cropper) {
-
-    cropper.destroy();
-
-    cropper = null;
-
-  }
-
-  cropImg.crossOrigin =
-    'anonymous';
-
-  cropImg.onload =
-    () => {
-
-      document
-        .getElementById('cropBox')
-        .style.display = 'block';
-
-      document
-        .getElementById('confirmBtn')
-        .style.display = 'inline-block';
-
-      cropper =
-        new Cropper(
-          cropImg,
+      '9': {
+        total: 9,
+        sections: [
           {
-            aspectRatio: 1,
-            viewMode: 1,
-            autoCropArea: 1,
-            responsive: true
+            count: 9,
+            cols: 3,
+            className: 'grid-3x3'
           }
-        );
+        ]
+      },
 
-    };
+      '25': {
+        total: 25,
+        sections: [
+          {
+            count: 25,
+            cols: 5,
+            className: 'grid-5x5'
+          }
+        ]
+      },
 
-  cropImg.src = src;
-
-}
-
-
-/* =========================================================
-   ローカル画像読み込み
-========================================================= */
-
-function loadUploadedImage(event) {
-
-  const file =
-    event.target.files[0];
-
-  const fileName =
-    document.getElementById(
-      'fileName'
-    );
-
-  if (!file) {
-
-    fileName.textContent =
-      dict[currentLang].fileNoSelected;
-
-    return;
-
-  }
-
-  fileName.textContent =
-    file.name;
-
-  if (!file.type.startsWith('image/')) {
-
-    alert(
-      dict[currentLang].alertFile
-    );
-
-    event.target.value = '';
-
-    fileName.textContent =
-      dict[currentLang].fileNoSelected;
-
-    return;
-
-  }
-
-  const reader =
-    new FileReader();
-
-  reader.onload =
-    function(e) {
-
-      loadImageIntoCropper(
-        e.target.result
-      );
-
-    };
-
-  reader.readAsDataURL(file);
-
-}
-
-
-/* =========================================================
-   Crop確定
-========================================================= */
-
-function applyCrop() {
-
-  if (!cropper) {
-    return;
-  }
-
-  const croppedCanvas =
-    cropper.getCroppedCanvas(
-      {
-        width: 400,
-        height: 400,
-        imageSmoothingEnabled: true,
-        imageSmoothingQuality: 'high'
+      '42': {
+        total: 42,
+        sections: [
+          {
+            count: 10,
+            cols: 5,
+            className: 'grid-top'
+          },
+          {
+            count: 12,
+            cols: 6,
+            className: 'grid-mid'
+          },
+          {
+            count: 20,
+            cols: 10,
+            className: 'grid-bot'
+          }
+        ]
       }
-    );
 
-  slotsData[selectedSlotIndex] =
-    croppedCanvas;
-
-  renderSlots();
-
-  closeModal();
-
-}
+    };
 
 
-/* =========================================================
-   全消去
-========================================================= */
+    const MAX_SLOTS = 42;
 
-function clearAll() {
+    let slotsData =
+      new Array(MAX_SLOTS).fill(null);
 
-  if (
-    !confirm(
-      dict[currentLang].alertClear
-    )
-  ) {
-    return;
-  }
+    let currentLayoutId = '42';
 
-  slotsData =
-    new Array(MAX_SLOTS).fill(null);
+    let selectedSlotIndex = null;
 
-  renderSlots();
+    let cropper = null;
 
-}
+    let draggedSlotIndex = null;
 
 
-/* =========================================================
-   PNG出力
-========================================================= */
+    /* =========================================================
+       言語
+       ========================================================= */
 
-function exportCanvas() {
+    function applyLanguage() {
 
-  const layout =
-    LAYOUTS[currentLayoutId];
-
-  const width = 1200;
-
-  const padding = 40;
-
-  const titleHeight = 90;
-
-  const gap = 12;
-
-  /*
-   * まず全体の高さを計算する。
-   * セルサイズ自体は元の計算方法を維持する。
-   */
-  let currentY =
-    padding + titleHeight;
-
-  const sectionInfo = [];
-
-  layout.sections.forEach(
-    sectionConfig => {
-
-      const rawItemW =
-        (
-          width -
-          padding * 2 -
-          gap *
-            (sectionConfig.cols - 1)
-        ) /
-        sectionConfig.cols;
-
-      const rawHeight =
-        rawItemW *
-        Math.ceil(
-          sectionConfig.count /
-          sectionConfig.cols
-        );
-
-      const sectionHeight =
-        rawHeight +
-        gap *
-        (
-          Math.ceil(
-            sectionConfig.count /
-            sectionConfig.cols
-          ) - 1
-        );
-
-      sectionInfo.push(
-        {
-          config: sectionConfig,
-          rawItemW: rawItemW,
-          startY: currentY,
-          sectionHeight: sectionHeight
-        }
-      );
-
-      currentY +=
-        sectionHeight + gap;
-
-    }
-  );
-
-  const height =
-    Math.ceil(
-      currentY -
-      gap +
-      padding
-    );
+      const texts = dict[currentLang];
 
 
-  const canvas =
-    document.createElement('canvas');
+      document
+        .querySelectorAll('[data-i18n]')
+        .forEach(el => {
 
-  canvas.width =
-    width;
+          const key =
+            el.getAttribute('data-i18n');
 
-  canvas.height =
-    height;
+          if (texts[key]) {
+            el.textContent = texts[key];
+          }
 
-  const ctx =
-    canvas.getContext('2d');
-
-
-  /* 背景 */
-
-  const dark =
-    document.body.classList.contains(
-      'dark-mode'
-    );
-
-  const bgColor =
-    dark
-      ? '#000000'
-      : '#ffffff';
-
-  const textColor =
-    dark
-      ? '#ffffff'
-      : '#333333';
-
-  const emptyBorder =
-    dark
-      ? '#222222'
-      : '#cccccc';
-
-  ctx.fillStyle =
-    bgColor;
-
-  ctx.fillRect(
-    0,
-    0,
-    width,
-    height
-  );
+        });
 
 
-  /* タイトル */
+      document
+        .querySelectorAll('[data-i18n-placeholder]')
+        .forEach(el => {
 
-  const title =
-    document
-      .getElementById('titleInput')
-      .value
-      .trim() ||
-    dict[currentLang].titlePlaceholder;
+          const key =
+            el.getAttribute('data-i18n-placeholder');
 
-  ctx.fillStyle =
-    textColor;
+          if (texts[key]) {
+            el.placeholder = texts[key];
+          }
 
-  ctx.font =
-    '700 42px "Zen Maru Gothic", sans-serif';
-
-  ctx.textAlign =
-    'center';
-
-  ctx.textBaseline =
-    'middle';
-
-  ctx.fillText(
-    title,
-    width / 2,
-    padding + titleHeight / 2
-  );
+        });
 
 
-  /*
-   * 画像描画
-   *
-   * x / y / width / height を整数化する。
-   * 小数ピクセルへのdrawImageによる境界線を防ぐ。
-   */
-  let slotIndex = 0;
+      document.querySelector(
+        'option[value="42"]'
+      ).textContent = texts.layout42;
 
-  sectionInfo.forEach(
-    info => {
+      document.querySelector(
+        'option[value="9"]'
+      ).textContent = texts.layout9;
 
-      const config =
-        info.config;
+      document.querySelector(
+        'option[value="25"]'
+      ).textContent = texts.layout25;
 
-      const rawItemW =
-        info.rawItemW;
 
-      const rows =
-        Math.ceil(
-          config.count /
-          config.cols
-        );
+      const titleInput =
+        document.getElementById('titleInput');
 
-      for (
-        let row = 0;
-        row < rows;
-        row++
+
+      if (
+        titleInput.value === dict.ja.titlePlaceholder ||
+        titleInput.value === dict.en.titlePlaceholder ||
+        titleInput.value === ''
       ) {
 
+        titleInput.value =
+          texts.titlePlaceholder;
+
+        updateTitle();
+
+      }
+
+
+      updateThemeBtnText();
+
+      const fileInput =
+        document.getElementById('fileInput');
+      const fileName =
+        document.getElementById('fileName');
+
+      if (fileInput && fileName && !fileInput.files.length) {
+        fileName.textContent =
+          texts.fileNoSelected;
+      }
+
+    }
+
+
+    function toggleLanguage() {
+
+      currentLang =
+        currentLang === 'ja'
+          ? 'en'
+          : 'ja';
+
+      document.getElementById(
+        'langLabel'
+      ).textContent =
+        currentLang === 'ja'
+          ? 'EN'
+          : 'JA';
+
+      applyLanguage();
+
+    }
+
+
+    /* =========================================================
+       テーマ
+       ========================================================= */
+
+    function toggleTheme() {
+
+      const body =
+        document.body;
+
+
+      if (
+        body.classList.contains('light-mode')
+      ) {
+
+        body.classList.remove(
+          'light-mode'
+        );
+
+        body.classList.add(
+          'dark-mode'
+        );
+
+      } else {
+
+        body.classList.remove(
+          'dark-mode'
+        );
+
+        body.classList.add(
+          'light-mode'
+        );
+
+      }
+
+
+      updateThemeBtnText();
+
+    }
+
+
+    function updateThemeBtnText() {
+
+      const isDark =
+        document.body.classList.contains(
+          'dark-mode'
+        );
+
+      const textSpan =
+        document.querySelector(
+          '#themeToggleBtn span'
+        );
+
+      textSpan.textContent =
+        isDark
+          ? dict[currentLang].themeDark
+          : dict[currentLang].themeLight;
+
+    }
+
+
+    /* =========================================================
+       初期化
+       ========================================================= */
+
+    function init() {
+
+      applyLanguage();
+
+      buildGrid();
+
+      updateTitle();
+
+    }
+
+
+    /* =========================================================
+       レイアウト変更
+       ========================================================= */
+
+    function changeLayout() {
+
+      currentLayoutId =
+        document.getElementById(
+          'layoutSelect'
+        ).value;
+
+      buildGrid();
+
+    }
+
+
+    function buildGrid() {
+
+      const gridArea =
+        document.getElementById(
+          'gridArea'
+        );
+
+      gridArea.innerHTML = '';
+
+
+      const config =
+        LAYOUTS[currentLayoutId];
+
+      let slotCounter = 0;
+
+
+      config.sections.forEach(sec => {
+
+        const sectionDiv =
+          document.createElement('div');
+
+        sectionDiv.className =
+          `grid-section ${sec.className}`;
+
+
         for (
-          let col = 0;
-          col < config.cols;
-          col++
+          let i = 0;
+          i < sec.count;
+          i++
         ) {
 
-          if (
-            row * config.cols + col >=
-            config.count
-          ) {
+          const globalIndex =
+            slotCounter;
+
+
+          const slot =
+            document.createElement('div');
+
+          slot.className = 'slot';
+
+          slot.dataset.index =
+            globalIndex;
+
+          slot.id =
+            `slot-${globalIndex}`;
+
+          slot.draggable = true;
+
+
+          slot.addEventListener(
+            'dragstart',
+            handleDragStart
+          );
+
+          slot.addEventListener(
+            'dragover',
+            handleDragOver
+          );
+
+          slot.addEventListener(
+            'dragleave',
+            handleDragLeave
+          );
+
+          slot.addEventListener(
+            'drop',
+            handleDrop
+          );
+
+
+          slot.addEventListener(
+            'click',
+            e => {
+
+              if (
+                e.target.classList.contains(
+                  'delete-btn'
+                )
+              ) {
+                return;
+              }
+
+              openAddModal(
+                globalIndex
+              );
+
+            }
+          );
+
+
+          const delBtn =
+            document.createElement(
+              'button'
+            );
+
+          delBtn.className =
+            'delete-btn';
+
+          delBtn.innerHTML = '×';
+
+
+          delBtn.onclick =
+            e => {
+
+              e.stopPropagation();
+
+              removeImage(
+                globalIndex
+              );
+
+            };
+
+
+          slot.appendChild(
+            delBtn
+          );
+
+          sectionDiv.appendChild(
+            slot
+          );
+
+          slotCounter++;
+
+        }
+
+
+        gridArea.appendChild(
+          sectionDiv
+        );
+
+      });
+
+
+      renderSlots();
+
+    }
+
+
+    /* =========================================================
+       ドラッグ＆ドロップ
+       ========================================================= */
+
+    function handleDragStart(e) {
+
+      draggedSlotIndex =
+        parseInt(
+          this.dataset.index
+        );
+
+      e.dataTransfer.effectAllowed =
+        'move';
+
+    }
+
+
+    function handleDragOver(e) {
+
+      e.preventDefault();
+
+      this.classList.add(
+        'drag-over'
+      );
+
+    }
+
+
+    function handleDragLeave() {
+
+      this.classList.remove(
+        'drag-over'
+      );
+
+    }
+
+
+    function handleDrop(e) {
+
+      e.preventDefault();
+
+      this.classList.remove(
+        'drag-over'
+      );
+
+
+      const targetIndex =
+        parseInt(
+          this.dataset.index
+        );
+
+
+      if (
+        draggedSlotIndex !== null &&
+        draggedSlotIndex !== targetIndex
+      ) {
+
+        const temp =
+          slotsData[
+            draggedSlotIndex
+          ];
+
+        slotsData[
+          draggedSlotIndex
+        ] =
+          slotsData[
+            targetIndex
+          ];
+
+        slotsData[
+          targetIndex
+        ] =
+          temp;
+
+
+        renderSlots();
+
+      }
+
+    }
+
+
+    /* =========================================================
+       画像追加モーダル
+       ========================================================= */
+
+    function openAddModal(index = null) {
+
+      const config =
+        LAYOUTS[currentLayoutId];
+
+
+      if (index === null) {
+
+        for (
+          let i = 0;
+          i < config.total;
+          i++
+        ) {
+
+          if (!slotsData[i]) {
+
+            index = i;
+
             break;
+
           }
 
-          const index =
-            slotIndex++;
-
-          /*
-           * 左右の境界をそれぞれ丸めてから
-           * 幅を差分で求める。
-           *
-           * これにより、例えば
-           * 192.4px + 192.4px ...
-           * のような小数ピクセルによる
-           * 1px程度の線を避ける。
-           */
-          const x1 =
-            Math.round(
-              padding +
-              col *
-                (rawItemW + gap)
-            );
-
-          const x2 =
-            Math.round(
-              padding +
-              col *
-                (rawItemW + gap) +
-              rawItemW
-            );
-
-          const y1 =
-            Math.round(
-              info.startY +
-              row *
-                (rawItemW + gap)
-            );
-
-          const y2 =
-            Math.round(
-              info.startY +
-              row *
-                (rawItemW + gap) +
-              rawItemW
-            );
-
-          const drawW =
-            x2 - x1;
-
-          const drawH =
-            y2 - y1;
+        }
 
 
-          if (slotsData[index]) {
+        if (index === null) {
+          index = 0;
+        }
+
+      }
+
+
+      selectedSlotIndex =
+        index;
+
+
+      document.getElementById(
+        'modalTitle'
+      ).textContent =
+        dict[currentLang].modalTitle;
+
+
+      document.getElementById(
+        'urlInput'
+      ).value = '';
+
+
+      document.getElementById(
+        'fileInput'
+      ).value = '';
+
+      document.getElementById(
+        'fileName'
+      ).textContent =
+        dict[currentLang].fileNoSelected;
+
+
+      document.getElementById(
+        'cropBox'
+      ).style.display =
+        'none';
+
+
+      document.getElementById(
+        'confirmBtn'
+      ).style.display =
+        'none';
+
+
+      if (cropper) {
+
+        cropper.destroy();
+
+        cropper = null;
+
+      }
+
+
+      document.getElementById(
+        'modal'
+      ).style.display =
+        'flex';
+
+    }
+
+
+    function closeModal() {
+
+      document.getElementById(
+        'modal'
+      ).style.display =
+        'none';
+
+
+      if (cropper) {
+
+        cropper.destroy();
+
+        cropper = null;
+
+      }
+
+    }
+
+
+    /* =========================================================
+       Cropper共通処理
+       ========================================================= */
+
+    function loadImageIntoCropper(src) {
+
+      const cropImg =
+        document.getElementById(
+          'cropImage'
+        );
+
+
+      if (cropper) {
+
+        cropper.destroy();
+
+        cropper = null;
+
+      }
+
+
+      cropImg.onload = () => {
+
+        document.getElementById(
+          'cropBox'
+        ).style.display =
+          'block';
+
+
+        document.getElementById(
+          'confirmBtn'
+        ).style.display =
+          'inline-block';
+
+
+        cropper =
+          new Cropper(
+            cropImg,
+            {
+              aspectRatio: 1,
+              viewMode: 1,
+              autoCropArea: 1
+            }
+          );
+
+      };
+
+
+      cropImg.onerror = () => {
+
+        alert(
+          'Error: Could not load image.'
+        );
+
+      };
+
+
+      cropImg.src = src;
+
+    }
+
+
+    /* =========================================================
+       URLから画像を取得
+       ========================================================= */
+
+    async function fetchAndCrop() {
+
+      const url =
+        document.getElementById(
+          'urlInput'
+        ).value.trim();
+
+
+      if (!url) {
+
+        return alert(
+          dict[currentLang].alertUrl
+        );
+
+      }
+
+
+      try {
+
+        const proxyUrl =
+          `${WORKER_URL}/?url=${encodeURIComponent(url)}`;
+
+
+        const img =
+          new Image();
+
+        img.crossOrigin =
+          'anonymous';
+
+        img.src =
+          proxyUrl;
+
+
+        await new Promise(
+          (resolve, reject) => {
+
+            img.onload =
+              resolve;
+
+            img.onerror =
+              () =>
+                reject(
+                  new Error(
+                    'Fetch Error'
+                  )
+                );
+
+          }
+        );
+
+
+        loadImageIntoCropper(
+          proxyUrl
+        );
+
+
+      } catch (e) {
+
+        alert(
+          'Error: ' + e.message
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       ローカル画像アップロード
+       ========================================================= */
+
+    function loadUploadedImage(event) {
+
+      const file =
+        event.target.files[0];
+
+      if (!file) {
+        document.getElementById(
+          'fileName'
+        ).textContent =
+          dict[currentLang].fileNoSelected;
+        return;
+      }
+
+      document.getElementById(
+        'fileName'
+      ).textContent = file.name;
+
+
+      if (
+        !file.type.startsWith(
+          'image/'
+        )
+      ) {
+
+        alert(
+          dict[currentLang].alertFile
+        );
+
+        event.target.value = '';
+        document.getElementById(
+          'fileName'
+        ).textContent =
+          dict[currentLang].fileNoSelected;
+
+        return;
+
+      }
+
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        e => {
+
+          loadImageIntoCropper(
+            e.target.result
+          );
+
+        };
+
+
+      reader.onerror =
+        () => {
+
+          alert(
+            'Error: Could not read image file.'
+          );
+
+        };
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+
+
+    /* =========================================================
+       Crop確定
+       ========================================================= */
+
+    function applyCrop() {
+
+      if (!cropper) {
+        return;
+      }
+
+
+      const croppedCanvas =
+        cropper.getCroppedCanvas(
+          {
+            width: 400,
+            height: 400,
 
             /*
-             * セル境界内だけに描画する。
+             * 透明背景や端の補間による
+             * 不要な線を避ける
              */
-            ctx.save();
-
-            ctx.beginPath();
-
-            ctx.rect(
-              x1,
-              y1,
-              drawW,
-              drawH
-            );
-
-            ctx.clip();
-
-            ctx.drawImage(
-              slotsData[index],
-              x1,
-              y1,
-              drawW,
-              drawH
-            );
-
-            ctx.restore();
-
-          } else {
-
-            ctx.strokeStyle =
-              emptyBorder;
-
-            ctx.lineWidth =
-              1;
-
-            ctx.strokeRect(
-              x1 + 0.5,
-              y1 + 0.5,
-              drawW - 1,
-              drawH - 1
-            );
-
+            imageSmoothingEnabled: true,
+            imageSmoothingQuality: 'high'
           }
+        );
+
+
+      slotsData[
+        selectedSlotIndex
+      ] =
+        croppedCanvas;
+
+
+      renderSlots();
+
+      closeModal();
+
+    }
+
+
+    /* =========================================================
+       画像削除
+       ========================================================= */
+
+    function removeImage(index) {
+
+      slotsData[index] =
+        null;
+
+      renderSlots();
+
+    }
+
+
+    /* =========================================================
+       グリッド描画
+       ========================================================= */
+
+    function renderSlots() {
+
+      const config =
+        LAYOUTS[currentLayoutId];
+
+
+      for (
+        let i = 0;
+        i < config.total;
+        i++
+      ) {
+
+        const slot =
+          document.getElementById(
+            `slot-${i}`
+          );
+
+
+        if (!slot) {
+          continue;
+        }
+
+
+        const data =
+          slotsData[i];
+
+
+        if (data) {
+
+          slot.style.backgroundImage =
+            `url(${data.toDataURL('image/png')})`;
+
+          slot.classList.add(
+            'has-image'
+          );
+
+        } else {
+
+          slot.style.backgroundImage =
+            'none';
+
+          slot.classList.remove(
+            'has-image'
+          );
 
         }
 
       }
 
     }
-  );
 
 
-  /* ダウンロード */
+    /* =========================================================
+       タイトル
+       ========================================================= */
 
-  const safeTitle =
-    title.replace(
-      /[\\/:*?"<>|]/g,
-      '_'
-    );
+    function updateTitle() {
 
-  const link =
-    document.createElement('a');
+      document.getElementById(
+        'chartTitle'
+      ).textContent =
+        document.getElementById(
+          'titleInput'
+        ).value || ' ';
 
-  link.download =
-    `${safeTitle}.png`;
+    }
 
-  link.href =
-    canvas.toDataURL('image/png');
 
-  link.click();
+    /* =========================================================
+       全削除
+       ========================================================= */
 
-}
-</script>
+    function clearAll() {
+
+      if (
+        confirm(
+          dict[currentLang].alertClear
+        )
+      ) {
+
+        const total =
+          LAYOUTS[
+            currentLayoutId
+          ].total;
+
+
+        for (
+          let i = 0;
+          i < total;
+          i++
+        ) {
+
+          slotsData[i] =
+            null;
+
+        }
+
+
+        renderSlots();
+
+      }
+
+    }
+
+
+    /* =========================================================
+       PNG出力
+       ========================================================= */
+
+    function exportCanvas() {
+
+      const config =
+        LAYOUTS[currentLayoutId];
+
+
+      const exportCanvas =
+        document.createElement(
+          'canvas'
+        );
+
+
+      const ctx =
+        exportCanvas.getContext(
+          '2d'
+        );
+
+
+      const width = 1200;
+
+      const padding = 40;
+
+      const titleHeight = 90;
+
+      const gap = 12;
+
+
+      const isDark =
+        document.body.classList.contains(
+          'dark-mode'
+        );
+
+
+      const bgColor =
+        isDark
+          ? '#000000'
+          : '#ffffff';
+
+
+      /*
+       * ライトテーマではWebページと同じく
+       * 少し明るい濃いグレー
+       */
+      const textColor =
+        isDark
+          ? '#ffffff'
+          : '#333333';
+
+
+      const emptyBorder =
+        isDark
+          ? '#222222'
+          : '#cccccc';
+
+
+      let totalHeight =
+        padding + titleHeight;
+
+
+      const sectionHeights = [];
+
+
+      /*
+       * 各セルの幅を整数にする。
+       *
+       * 元コードでは 232.8px などの小数値を
+       * Canvasに直接渡していたため、画像の端で
+       * 補間が発生して細い線が見える場合があった。
+       */
+      config.sections.forEach(sec => {
+
+        const rows =
+          Math.ceil(
+            sec.count / sec.cols
+          );
+
+
+        const rawItemW =
+          (
+            width -
+            padding * 2 -
+            gap * (sec.cols - 1)
+          ) / sec.cols;
+
+
+        const itemW =
+          Math.floor(rawItemW);
+
+
+        const secH =
+          rows * itemW +
+          (rows - 1) * gap;
+
+
+        sectionHeights.push(
+          {
+            itemW,
+            secH,
+            rows,
+            cols: sec.cols,
+            count: sec.count
+          }
+        );
+
+
+        totalHeight +=
+          secH + gap * 2;
+
+      });
+
+
+      totalHeight +=
+        padding - gap * 2;
+
+
+      exportCanvas.width =
+        width;
+
+      exportCanvas.height =
+        Math.ceil(totalHeight);
+
+
+      /* 背景 */
+      ctx.fillStyle =
+        bgColor;
+
+      ctx.fillRect(
+        0,
+        0,
+        width,
+        exportCanvas.height
+      );
+
+
+      /* タイトル */
+      ctx.fillStyle =
+        textColor;
+
+      ctx.font =
+        '700 42px "Zen Maru Gothic", sans-serif';
+
+      ctx.textAlign =
+        'center';
+
+      ctx.textBaseline =
+        'alphabetic';
+
+
+      ctx.fillText(
+        document.getElementById(
+          'titleInput'
+        ).value,
+        width / 2,
+        padding + 50
+      );
+
+
+      let currentY =
+        padding + titleHeight;
+
+
+      let slotIndex = 0;
+
+
+      sectionHeights.forEach(
+        secConfig => {
+
+          for (
+            let i = 0;
+            i < secConfig.count;
+            i++
+          ) {
+
+            const col =
+              i % secConfig.cols;
+
+
+            const row =
+              Math.floor(
+                i / secConfig.cols
+              );
+
+
+            /*
+             * X/Yも整数化する。
+             */
+            const x =
+              Math.round(
+                padding +
+                col *
+                (
+                  secConfig.itemW +
+                  gap
+                )
+              );
+
+
+            const y =
+              Math.round(
+                currentY +
+                row *
+                (
+                  secConfig.itemW +
+                  gap
+                )
+              );
+
+
+            const drawW =
+              secConfig.itemW;
+
+            const drawH =
+              secConfig.itemW;
+
+
+            if (
+              slotsData[slotIndex]
+            ) {
+
+              /*
+               * セルの領域をクリップして、
+               * 画像の端が隣の領域へ
+               * はみ出さないようにする。
+               */
+              ctx.save();
+
+
+              ctx.beginPath();
+
+              ctx.rect(
+                x,
+                y,
+                drawW,
+                drawH
+              );
+
+              ctx.clip();
+
+
+              ctx.drawImage(
+                slotsData[slotIndex],
+                x,
+                y,
+                drawW,
+                drawH
+              );
+
+
+              ctx.restore();
+
+
+            } else {
+
+              ctx.strokeStyle =
+                emptyBorder;
+
+              ctx.lineWidth = 3;
+
+
+              ctx.strokeRect(
+                x + 1.5,
+                y + 1.5,
+                drawW - 3,
+                drawH - 3
+              );
+
+            }
+
+
+            slotIndex++;
+
+          }
+
+
+          currentY +=
+            secConfig.secH +
+            gap * 2;
+
+        }
+      );
+
+
+      const a =
+        document.createElement(
+          'a'
+        );
+
+
+      a.href =
+        exportCanvas.toDataURL(
+          'image/png'
+        );
+
+
+      const dlName =
+        document.getElementById(
+          'titleInput'
+        ).value.trim() ||
+        'IllustrationChart';
+
+
+      a.download =
+        `${dlName}.png`;
+
+
+      a.click();
+
+    }
+
+
+    /* =========================================================
+       起動
+       ========================================================= */
+
+    init();
+
+  </script>
 
 </body>
 </html>
